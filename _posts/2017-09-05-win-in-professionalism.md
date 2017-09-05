@@ -34,7 +34,7 @@ tags:	    [professionalism]
 ## 团队的意识
 
 1. 沙漠生存游戏，stay or go
-2. 理解团队（Team）与团体（Group）的差异
+2. 理解团队(Team)与团体(Group)的差异
 3. 企业提拔人才的条件：结果重要或价值观重要？
 
 ## 变革的意识
