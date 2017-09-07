@@ -25,8 +25,9 @@ tags:	    [Python, 后台自动化]
 ![](/images/images_2017/socket_udp.jpg)
 * Python2中没有字节(Byte)类型的数据类型，我们可以使用Python的struct模块来处理字节流数据(即二进制数据)。其中fmt见下图说明，这里的使用有一个坑，后面会分享。
 >struct.pack_into(fmt, buffer, offset, v1, v2, ...)
-Pack the values v1, v2, ... according to the format string fmt and write the packed bytes into the writable buffer buffer starting at position offset. Note that offset is a required argument.
+Pack the values v1, v2, ... according to the format string fmt and write the packed bytes into the writable buffer starting at position offset. Note that offset is a required argument.
 按照指定的格式fmt，将v1,v2...打包到buffer中，其中偏移位置为offset 
+
 >struct.unpack_from(fmt, buffer, offset=0)
 Unpack from buffer starting at position offset, according to the format string fmt. The result is a tuple even if it contains exactly one item. The buffer’s size in bytes, minus offset, must be at least the size required by the format, as reflected by calcsize().
 按照指定的格式fmt，从偏移位置offset开始解包，返回数据格式是一个元组(v1,v2...)
