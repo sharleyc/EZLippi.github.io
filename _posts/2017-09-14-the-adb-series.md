@@ -12,13 +12,13 @@ ADB，即Android Debug Bridge，它有两种调试方式USB或WIFI方式。本�
 
 * 进入Android SDK的platform-tools目录下，执行以下命令重启Android手机中的adbd后台程序重新侦听TCP的指定端口：adb tcpip 5555（成功则返回：restarting in TCP mode port:5555）
 
-* 执行以下命令建议无线调试连接：adb connect <address>（address是手机的IP地址，成功则返回：connected to address:port），如果出现“unable to connect to address:port...”的信息则：
+* 执行以下命令建立无线调试连接：adb connect <address>（address是手机的IP地址，成功则返回：connected to address:port），如果出现“unable to connect to address:port...”的信息则：
 
- + 在手机上下载一个shell软件，切换为root用户(su)。
+  +  在手机上下载一个shell软件，切换为root用户(su)。
 
- + 设置adbd服务监听的端口号：setprop service.adb.tcp.port 5555
+  +  设置adbd服务监听的端口号：setprop service.adb.tcp.port 5555
  
- + 关闭服务：stop adbd 
+  +  关闭服务：stop adbd 
  
  + 重启服务：start adbd
  
