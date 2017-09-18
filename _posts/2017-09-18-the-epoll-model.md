@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      [转]我读过最好的Epoll模型讲解
+title:      转-我读过最好的Epoll模型讲解
 keywords:   博客
 categories: [网络编程]
 tags:	    [Epoll]
@@ -48,12 +48,40 @@ while true {
 
 为了避免CPU空转，可以引进了一个代理（一开始有一位叫做select的代理，后来又有一位叫做poll的代理，不过两者的本质是一样的）。这个代理比较厉害，可以同时观察许多流的I/O事件，在空闲的时候，会把当前线程阻塞掉，当有一个或多个流有I/O事件时，就从阻塞态中醒来，于是我们的程序就会轮询一遍所有的流（于是我们可以把“忙”字去掉了）。代码长这样:
 
+```
+while true {  
+    select(streams[])  
+    for i in streams[] {  
+        if i has data  
+        read until unavailable  
+    }  
+}  
+```
+
 
 于是，如果没有I/O事件产生，我们的程序就会阻塞在select处。但是依然有个问题，我们从select那里仅仅知道了，有I/O事件发生了，但却并不知道是那几个流（可能有一个，多个，甚至全部），我们只能无差别轮询所有流，找出能读出数据，或者写入数据的流，对他们进行操作。但是使用select，我们有O(n)的无差别轮询复杂度，同时处理的流越多，每一次无差别轮询时间就越长。再次说了这么多，终于能好好解释epoll了。
 
 
-epoll可以理解为event poll，不同于忙轮询和无差别轮询，epoll之会把哪个流发生了怎样的I/O事件通知我们。此时我们对这些流的操作都是有意义的。（复杂度降低到了O(1)）
+epoll可以理解为event poll，不同于忙轮询和无差别轮询，epoll之会把哪个流发生了怎样的I/O事件通知我们。此时我们对这些流的操作都是有意义的。（复杂度降低到了O(1)）。 在讨论epoll的实现细节之前，先把epoll的相关操作列出：
+```
+epoll_create 创建一个epoll对象，一般epollfd = epoll_create()  
+epoll_ctl （epoll_add/epoll_del的合体），往epoll对象中增加/删除某一个流的某一个事件，比如  
+epoll_ctl(epollfd, EPOLL_CTL_ADD, socket, EPOLLIN);//注册缓冲区非空事件，即有数据流入  
+epoll_ctl(epollfd, EPOLL_CTL_DEL, socket, EPOLLOUT);//注册缓冲区非满事件，即流可以被写入  
+epoll_wait(epollfd,...)等待直到注册的事件发生  
+（注：当对一个非阻塞流的读写发生缓冲区满或缓冲区空，write/read会返回-1，并设置errno=EAGAIN。而epoll只关心缓冲区非满和缓冲区非空事件）。  
+```
+一个epoll模式的代码大概的样子是：
 
+```
+while true {  
+    active_stream[] = epoll_wait(epollfd)  
+    for i in active_stream[] {  
+        read or write till  
+    }  
+ }
+ 
+```
 
 
 
