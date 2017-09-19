@@ -6,25 +6,18 @@ categories: [Android]
 tags:	    [抓包]
 ---
 
-ADB，即Android Debug Bridge，它有两种调试方式USB或WIFI方式。本文介绍了如何开启android手机的adbd进行无线adb调试。
+本文主要介绍如何使用tcpdump和wireshark对Android应用程序进行抓包分析。前提条件：Android设备已经root，并且PC上有Android SDK环境。
 
-* 确保你的Android手机有root权限（检验方法输入su并回车，若命令提示符从$变#则为rooted）；确保PC和Android手机在同一网段下。开启手机的USB调试，用USB将Android手机连接到PC上。
+* 下载安装tcpdump。根据Android设备版本选择一个版本下载并解压其中的tcpdump文件，push到Android设备中。链接：http://www.tcpdump.org；命令： 
+adb push c:\tcpdump /data/local/tcpdump
 
-* 进入Android SDK的platform-tools目录下，执行以下命令重启Android手机中的adbd后台程序重新侦听TCP的指定端口：adb tcpip 5555（成功则返回：restarting in TCP mode port:5555）
+* 执行以下命令开始抓包：
+/data/local/tcpdump -p -vv -s 0 -w /sdcard/capture.pcap
 
-* 拔掉数据线断开PC和手机的连接，执行以下命令建立无线调试连接：adb connect <address>（address是手机的IP地址，成功则返回：connected to address:port），如果出现“unable to connect to address:port...”的信息则：
-
-  +  在手机上下载一个shell软件，切换为root用户(su)。
-
-  +  设置adbd服务监听的端口号：setprop service.adb.tcp.port 5555
- 
-  +  关闭服务：stop adbd 
- 
-  +  重启服务：start adbd
- 
-  + 进入platform-tools目录下再次尝试：adb connect <address>
+* 执行相应操作完毕后ctrl+c停止抓包
   
-* 回复USB方式，执行以下命令：adb usb（成功则返回：restarting in USB mode）
+* 将capture.pcap文件pull到本地（比如d:/download目录下），使用wireshark进行分析：
+adb pull /sdcard/capture.pcap d:/download
 
 
 
