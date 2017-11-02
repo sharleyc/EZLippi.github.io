@@ -10,7 +10,7 @@ tags:	    [adbd, wireshark, python]
 
 ## ADB架构
 
-借用下图来简单说明一下ADB的架构。
+借用下面两张图来简单说明一下ADB的架构。
   ![](/images/images_2017/adb_1.jpg)
   ![](/images/images_2017/adb_2.jpg)
 
@@ -48,7 +48,18 @@ adb server是作为一个后台服务在运行的，服务进程监听本地的5
  1 手机USB连接PC，保证手机和PC在一个局域网中  
  2 运行命令：adb tcpip 5555  
  3 拔掉USB连接  
- 4 运行命令：adb connect 192.168.199.*(手机IP地址)  
- 5 启动wireshark开始抓包  
- 6 运行命令adb shell ls  
- 7 停止抓包，设置过滤规则tcp.port == 5555 
+ 4 启动wireshark开始抓包 
+ 5 运行命令：adb connect 192.168.199.*(手机IP地址)，停止抓包，并保存抓包数据
+ 6 重新启动抓包，运行命令adb shell和ls，停止抓包，并保存抓包数据
+设置过滤规则tcp.port == 5555 
+ 
+* 追踪TCP流，理解adbd协议的工作流程
+
+Wireshark分析功能中有一个追踪TCP流的功能，可以将客户端和服务器的数据排好顺序使之容易查看。使用方法是：单击一个TCP包，右键选择追踪流--TCP流，TCP流就会在一个单独的窗口中显示出来。窗口中的文字用两种颜色显示，其中红色表示从源地址到目标地址的流量，蓝色则用来表示相反方向的流量。
+
+1 我们已经知道了adbd协议是基于TCP协议的，TCP协议通过三次握手来建立连接，因此首先找到三次握手的部分。(分析之前先设置过滤规则tcp.port == 5555)  
+   ![](/images/images_2017/connect_2.jpg)  
+2 追踪接下来的TCP流，可以清晰的看到adbd建立通信的整个过程。这里涉及到两个命令字：CNXN和AUTH。  
+   ![](/images/images_2017/connect_3.jpg)  
+3 继续查看后面的TCP流，对应的是打开一个数据流，adbd返回结果数据的过程，这个过程涉及到三个命令字：OPEN,OKAY,WRTE。  
+   ![](/images/images_2017/connect_4.jpg)   
