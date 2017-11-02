@@ -63,3 +63,10 @@ Wireshark分析功能中有一个追踪TCP流的功能，可以将客户端和�
    ![](/images/images_2017/connect_3.jpg)  
 3 继续查看后面的TCP流，对应的是打开一个数据流，adbd返回结果数据的过程，这个过程涉及到三个命令字：OPEN,OKAY,WRTE。  
    ![](/images/images_2017/connect_4.jpg)   
+   
+* 结合官方文档，分析ADBD协议数据包首部
+
+1 CONNECT(version, maxdata, "system-identity-string")
+现在，version=0x01000000，maxdata=256*1024。  
+maxdata规定了接受数据长度的最大值，但是一些旧版本的adb把maxdata硬编码为4096，因此，第一次发给设备的CNXN和AUTH包的数据长度不能超过4096。  
+对于adb server来说，CNXN包必须是第一个发送的数据包。
