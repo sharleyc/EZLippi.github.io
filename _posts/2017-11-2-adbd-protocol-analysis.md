@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      adbd协议分析
+title:      ADBD协议分析
 keywords:   博客
 categories: [Android]
 tags:	    [adbd, wireshark, python]
@@ -11,7 +11,7 @@ tags:	    [adbd, wireshark, python]
 ## ADB架构
 
 借用下图来简单说明一下ADB的架构。
-![](/images_2017/adb_1.jpg)
+![](/images/images_2017/adb_1.jpg)
 
 * adb client
 
@@ -30,7 +30,8 @@ adb server是作为一个后台服务在运行的，服务进程监听本地的5
 ## ADBD协议分析
 
 前面介绍了adb的架构(adb client和adb server实际上是一个exe文件，仅仅是在启动的时候通过不同的命令行来区别的)。如果我们想脱机控制手机，需要模拟实现adb server和adbd的通信过程。
-![](/images_2017/adb_2.jpg)
+ 
+  ![](/images/images_2017/adb_2.jpg)
 
 * ADBD协议的首部
 
@@ -39,5 +40,5 @@ adb server是作为一个后台服务在运行的，服务进程监听本地的5
  + arg0：第一个参数  
  + arg1：第二个参数  
  + data_length：数据部分的长度  
-![](/images_2017/adbd_1.jpg)
-![](/images_2017/adbd_2.jpg)
+![](/images/images_2017/adbd_1.jpg)
+![](/images/images_2017/adbd_2.jpg)
