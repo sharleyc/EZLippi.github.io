@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      ADBD协议分析
+title:      ADBD协议分析（一）
 keywords:   博客
 categories: [Android]
 tags:	    [adbd, wireshark, python]
@@ -66,7 +66,7 @@ Wireshark分析功能中有一个追踪TCP流的功能，可以将客户端和�
    
 * 结合官方文档，分析ADBD协议数据包首部
 
-1 CONNECT(version, maxdata, "system-identity-string")
+1 CONNECT(version, maxdata, "system-identity-string")   
 现在，version=0x01000000，maxdata=256*1024。  
 maxdata规定了接受数据长度的最大值，但是一些旧版本的adb把maxdata硬编码为4096，因此，第一次发给设备的CNXN和AUTH包的数据长度不能超过4096。  
 对于adb server来说，CNXN包必须是第一个发送的数据包。  
@@ -83,4 +83,23 @@ maxdata规定了接受数据长度的最大值，但是一些旧版本的adb把m
 参数command: 434e584e，实际是0x4e584e43，符合文档描述。  
 参数arg0：00000001，实际是0x01000000，符合文档描述。  
 参数arg1：00100000，实际是0x00001000，即4096，符合文档描述。  
-数据部分：'device::ro.product.name=...'，device表示设备。
+数据部分：'device::ro.product.name=...'，device表示设备。  
+
+2 AUTH(type, 0, "data")  
+有些设备在连接建立之前需要验证。adbd收到adb server的CNXN包后，会发送一个type为TOKEN(1)的AUTH包，里面包含一个20字节的随机token。adb server用私钥给这个token进行签名并返回给adbd一个type为SIGNATURE(2)的AUTH包，adbd验证签名正确后，会响应adb server一个CNXN包，否则会向adb server发送新的AUTH包，提供新的随机TOKEN，adb server则尝试另一组公私钥对。如果尝试完所有的公私钥对，则向adbd发送AUTH RSAPUBLICKEY包，包含一个server公钥。adbd将该公钥发往framework，后者弹出信息框，询问是否允许使用USB调试接口，该信息框中一般会显示公钥指纹(MD5)，而不是公钥本身。   
+
+下面我们还是根据实际抓包来了解验证过程。先看adbd发给adb server的AUTH包：   
+ ![](/images/images_2017/auth_1.jpg)   
+参数command: 41555448，因为是小端模式，所以实际是0x48545541，符合文档描述。  
+参数arg0(type)：01000000，即1，符合文档描述。  
+参数arg1(0)：00000000，即0，符合文档描述。  
+
+再来看看adb server发给adbd的AUTH包：  
+ ![](/images/images_2017/auth_2.jpg)   
+参数command：0x48545541，符合文档描述。  
+参数arg0(type)：2，符合文档描述。  
+参数arg1(0)：0，符合文档描述。    
+
+我们可以看到AUTH验证通过后，adbd随即响应了一个CNXN包，至此连接建立成功。
+  
+
