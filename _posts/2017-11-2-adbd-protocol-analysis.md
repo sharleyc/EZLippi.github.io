@@ -74,12 +74,13 @@ maxdata规定了接受数据长度的最大值，但是一些旧版本的adb把m
 看看实际抓包情况是怎样的，首先看adb server发给adbd的CNXN包：  
  ![](/images/images_2017/connect_5.jpg)   
 参数command: 434e584e，因为是小端模式（数据的高字节保存在内存的高地址中，而数据的低字节保存在内存的低地址中，与我们的阅读习惯不一致），所以实际是0x4e584e43，符合文档描述。  
-参数arg0：00000001，实际是0x01000000，符合文档描述。  
-参数arg1：00000400，实际是0x00040000，即256*1024，符合文档描述。  
-参数data_length：1b000000，实际是0000001b，即27，首部24字节，数据部分27个字节，总共51个字节。  
+参数arg0(version)：00000001，实际是0x01000000，符合文档描述。  
+参数arg1(maxdata)：00000400，实际是0x00040000，即256*1024，符合文档描述。  
+数据部分：'host::features=cmd,shell_v2'，systemtype有三种类型：bootloader、device、host，host表示adb server。  
+  
 再来看看adbd发给adb server的CNXN包：  
  ![](/images/images_2017/connect_6.jpg)   
 参数command: 434e584e，实际是0x4e584e43，符合文档描述。  
 参数arg0：00000001，实际是0x01000000，符合文档描述。  
 参数arg1：00100000，实际是0x00001000，即4096，符合文档描述。  
-参数data_length：61000000，实际是00000061，即97，首部24字节，数据部分97个字节，总共121个字节。   
+数据部分：'device::ro.product.name=...'，device表示设备。
