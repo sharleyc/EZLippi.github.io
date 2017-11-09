@@ -8,7 +8,7 @@ tags:	    [adbd, wireshark, python]
 
 在上一篇文章里我们首先说明了ADB的架构，其中核心的三个部分是adb client，adb server，以及adb daemon。理论上，我们可以模拟实现adb server和adbd的通信过程，前提是了解adbd协议。通过wireshark抓包，以及官方文档的描述，我们分析了adbd协议建立连接的过程。在本文里我们将继续分析adbd协议的其它部分。
 
-## 执行命令
+## adb shell命令
 
 首先来看看adbd协议是如何完成最常用的一个adb shell命令的。   
 操作步骤：   
@@ -26,7 +26,7 @@ OPEN消息告诉接收方，发送方有一个数据流需要连接到"destinati
 参数command: 4f50454e，因为是小端模式，所以实际是0x4e45504f，符合文档描述。  
 参数arg0(local-id)：8，数据流不变，则代表协议一方的local-id是不会变的，这点可以在后面看到。  
 参数arg1(0)：0，符合文档描述。这里其实是remote-id，因为还不知道remote-id，所以默认为0。  
-数据部分（"destination"）："shell:"    
+数据部分（"destination"）："shell:\x00"    
 
 #### READY(local-id, remote-id, "")  
 READY消息告诉接收方，数据流连接是正常的，可以发送消息。其中local-id是本地ID(发送方)，remote-id是远程ID(接收方)，数据部分为空。  
@@ -46,9 +46,11 @@ WRITE消息发送数据给接收方，同READY消息一样，需要包含local-i
 继续执行ls，也是类似的过程，但不会有OPEN消息了。 画一个简单的序列图如下： 
  ![](/images/images_2017/shell_5.jpg)    
 
-### 执行关联的命令  
+### 小结 
 
-我们通过上面的分析，了解到一个简单shell命令的执行过程。实际上，我们可能需要执行几个命令来完成一个任务，比如cd到某个路径下执行ls命令。我们仍然可以借助wireshark来分析关联命令的执行过程，这里就不详述了。需要注意的是，有关联的命令执行过程中，local-id和remote-id是固定的，而OPEN消息会改变接收方的ID，OPEN一次相当于生成一个新的stream。
+总结一下上述分析的要点：  
+1、一个数据流成功OPEN后，即有确定的local-id和remote-id，数据流不更改的情况下，local-id和remote-id也不应变化。  
+2、WRITE消息和READY消息是一一对应的。  
 
 ## SYNC服务  
 SYNC用于启动文件同步服务，用于实现“adb push”和“adb pull”。 由于此服务非常复杂，因此是单独在SYNC.TXT文档中详细介绍的(其它命令是在protocol.txt中介绍的)。    
