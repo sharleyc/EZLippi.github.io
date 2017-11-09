@@ -105,7 +105,7 @@ WRTE的data：DATA + chunk_size
 ## 写在最后   
 要完成adbd协议分析，需要具备以下一些知识点：  
 1、搜索资料的能力  
-2、adb的基础知识
+2、adb的基础知识  
 3、TCP协议的基础知识  
 4、wireshark的使用技巧  
 5、写脚本能力(笔者使用的是Python)  
