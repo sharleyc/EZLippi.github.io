@@ -47,52 +47,62 @@ WRITE消息发送数据给接收方，同READY消息一样，需要包含local-i
  ![](/images/images_2017/shell_5.jpg)    
 
 ### 小结 
-
-总结一下上述分析的要点：  
+  
 1、一个数据流成功OPEN后，即有确定的local-id和remote-id，数据流不更改的情况下，local-id和remote-id也不应变化。  
 2、WRITE消息和READY消息是一一对应的。  
 
 ## SYNC服务  
-SYNC用于启动文件同步服务，用于实现“adb push”和“adb pull”。 由于此服务非常复杂，因此是单独在SYNC.TXT文档中详细介绍的(其它命令是在protocol.txt中介绍的)。    
+SYNC用于启动文件同步服务，用于实现“adb push”和“adb pull”。   
 
 使用协议请求同步服务（“sync：”）设置连接为同步模式。 这种模式是一种二进制模式，与常规adb协议不同。 在发送初始的“sync：”命令后，服务器必须用“OKAY”或“FAIL”这两个命令进行响应。     
 
 在同步模式下，服务器和客户端会经常使用八字节的数据包来作为同步请求和同步响应。 前四个字节是一个id，指定同步请求是由四个utf-8字符组成。 最后四个字节是小端整数，代表各种用途。 后续用“长度”指代。 事实上所有二进制整数都是同步模式下的Little-Endian。 每个同步请求之后，隐式退出同步模式，并进行正常的adb通信。    
 
 有四种同步请求命令字：LIST、RECV、SEND和STAT。    
+（以上内容截取自SYNC.TXT文档）  
 
-以上信息来源于官方文档的描述。 下面我们就adb pull命令来理解该服务。  
+简单的说，adb pull和adb push命令的实现和其它adb shell命令不太一样，我们具体分析一下adb pull命令。
 
-第一步，查看TCP流，了解整体流程：  
- ![](/images/images_2017/pull_1.jpg)  
-第二步，分析数据包序列，画一个简单的序列图：  
- ![](/images/images_2017/pull_2.jpg)   
-第三步，对比官方文档和实际抓包数据    
-### 请求同步服务("sync:")  
+### adb pull命令     
+
+以下结合序列图和抓包数据，详细说明adb pull命令的执行过程。  
+ ![](/images/images_2017/pull_2.jpg)        
+#### 请求同步服务("sync:")  
  ![](/images/images_2017/pull_3.jpg)  
 OPEN的"destination"："sync:\x00"
 请求成功，则收到OKAY包  
-### 发送STAT同步请求  
+#### 发送STAT同步请求  
  ![](/images/images_2017/pull_4.jpg)    
 WRTE的data：STAT + length + str_path  
 这个命令用于获取文件信息，请求成功，则收到OKAY回包  
-### 收到STAT回复请求   
+#### 收到STAT回复请求   
  ![](/images/images_2017/pull_5.jpg) 
 WRTE的data：STAT + mode + size + time  
 其中size是文件的大小。  
 回复对方OKAY包   
-### 发送RECV同步请求 
+#### 发送RECV同步请求 
  ![](/images/images_2017/pull_6.jpg)  
 WRTE的data：RECV + length + str_path 
 这个命令用于将设备上的文件拷贝到本地。请求成功，则收到OKAY回包  
-### 收到数据  
+#### 收到数据  
  ![](/images/images_2017/pull_7.jpg)  
 WRTE的data：DATA + chunk_size 
 实际文件以块形式发送。 每个块都遵循一定的格式。“DATA”后跟块大小字节数。每个文件块不得大于64k。 
 每收到一个WRTE消息，需要回复一个OKAY消息。  
-### 收到同步请求DONE  
+#### 收到同步请求DONE  
  ![](/images/images_2017/pull_8.jpg)     
-传送文件完成后，WRTE消息的数据最后会包含同步请求“DONE”，需回复OKAY响应该同步请求。   
+传送文件完成后，WRTE消息的数据最后会包含同步请求“DONE”，需回复OKAY响应该同步请求。    
+
+### 小结  
+ 
+1、STAT命令拿到文件大小  
+2、RECV命令开始拷贝文件数据  
+3、文件以块传输，每块数据格式遵循DATA+size+data，其中size不得大于64K 
+4、当接收到"DONE"时意味着文件传输结束。   
+
+## 最后 
+文章对adb shell以及adb pull命令进行了详细分析，在此基础上就可以模拟实现adb server和adbd的通信过程了。（具体实现就不在此文详述了）  
+
 
 
   
