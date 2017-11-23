@@ -35,6 +35,9 @@ com.tencent.mm/com.tencent.mm.ui.LauncherUI
 QQ音乐：   
 com.tencent.qqmusic/com.tencent.qqmusic.activity.AppStarterActivity    
 
+参考资料：    
+http://blog.csdn.net/wjw_java_android/article/details/52299353    
+
 
 
 
