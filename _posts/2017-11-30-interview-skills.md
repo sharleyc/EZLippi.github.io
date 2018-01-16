@@ -2,7 +2,7 @@
 layout:     post
 title:     测试面试问题汇总
 keywords:   博客
-categories: [面试]
+categories: [杂项]
 tags:	    [面试技巧]
 ---
 

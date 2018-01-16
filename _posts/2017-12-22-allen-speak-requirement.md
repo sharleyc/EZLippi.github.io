@@ -2,7 +2,7 @@
 layout:     post
 title:      张小龙的产品观-需求篇
 keywords:   博客
-categories: [产品]
+categories: [杂项]
 tags:	    [产品，需求]
 ---
 

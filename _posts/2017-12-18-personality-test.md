@@ -2,7 +2,7 @@
 layout:     post
 title:      职业性格测试带来的自我反思
 keywords:   博客
-categories: [心理]
+categories: [杂项]
 tags:	    [职业性格测试]
 ---
 
