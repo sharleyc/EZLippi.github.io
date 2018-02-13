@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      张小龙的产品观-设计篇
+title:      张小龙的产品观-气质篇
 keywords:   博客
 categories: [杂项]
 tags:	    [气质，生活方式]
