@@ -152,6 +152,8 @@ adb shell dumpsys window windows | grep mCurrent
 https://blog.csdn.net/jffhy2017/article/details/69220719    
 http://blog.csdn.net/niubitianping/article/details/52523239?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io    
 https://www.cnblogs.com/wysk/p/7346659.html   
+https://www.cnblogs.com/fnng/p/4540731.html    
+  
 
 
 
