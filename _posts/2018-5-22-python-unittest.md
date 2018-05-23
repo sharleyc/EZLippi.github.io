@@ -6,7 +6,9 @@ categories: [Python]
 tags:	    [unittest]
 ---
 
-unittest是python的单元测试框架，是由java的JUnit衍生而来。unittest最核心的四个概念是test case, test suite, test runner, test fixture。
+unittest是python的单元测试框架，是由java的JUnit衍生而来。unittest最核心的四个概念是test case, test suite, test runner, test fixture。这里借用网络上的一张图：
+
+  ![](/images/images_2018/unittest.png)
 
 ## test case  
 
@@ -86,7 +88,11 @@ test runner协调测试的执行并向用户提供结果（见runner.py文件）
 
 A test fixture represents the preparation needed to perform one or more tests, and any associate cleanup actions. This may involve, for example, creating temporary or proxy databases, directories, or starting a server process.  
 
-test fixture，简单的说，是测试运行之前所需的稳定的、公共的可重复的运行环境。这个环境不仅可以是数据，也可以指对被测软件的准备，例如创建临时的数据库、启动服务进程等。text fixture的主要目的是建立一个固定或已知的环境状态来确保测试可重复并且按照预期方式运行。其中setUp()和tearDown()是最常用的方法。
+test fixture，简单的说，是测试运行之前所需的稳定的、公共的可重复的运行环境。这个环境不仅可以是数据，也可以指对被测软件的准备，例如创建临时的数据库、启动服务进程等。text fixture的主要目的是建立一个固定或已知的环境状态来确保测试可重复并且按照预期方式运行。其中setUp()和tearDown()是最常用的方法。   
+
+参考资料：   
+https://blog.csdn.net/huilan_same/article/details/52944782    
+
 
 
 
