@@ -25,7 +25,7 @@ A test case is the smallest unit of testing. It checks for a specific response t
 2、tearDown(): 在每个test case执行后都要执行的方法。（不管成功与否）  
 3、setUpClass(): 类方法，所有test cases开始之前，执行一次。   
 4、tearDownClass(): 类方法，所有test cases结束之后，执行一次。    
-5、run(result): 测试执行完毕后，测试结果存储在result中。
+5、run(result): 测试执行完毕后，测试结果存储在result中。     
 示例代码 class TestMathFunc(unittest.TestCase): 
     
     def setUp(self):
@@ -61,7 +61,7 @@ A test suite is a collection of test cases, test suites, or both. It is used to 
 
     suite = unittest.TestSuite()
     
-    tests = [TestMathFunc("test_add"),TestMathFunc("test_minus"),TestMathFunc("test_divide")]
+    tests = [TestMathFunc("test_add"),TestMathFunc("test_minus"),TestMathFunc("test_multi"),TestMathFunc("test_divide")]
     suite.addTests(tests)
 
     runner = unittest.TextTestRunner(verbosity=2)

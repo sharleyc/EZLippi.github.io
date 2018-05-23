@@ -2,7 +2,7 @@
 layout:     post
 title:      使用Python的struct模块组包的一个问题
 keywords:   博客
-categories: [自动化测试]
+categories: [Python]
 tags:	    [unsigned, 无符号类型]
 ---
 

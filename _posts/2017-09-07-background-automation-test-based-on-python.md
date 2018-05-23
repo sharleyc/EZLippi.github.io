@@ -2,7 +2,7 @@
 layout:     post
 title:      基于Python的后台自动化测试方法
 keywords:   博客
-categories: [自动化测试]
+categories: [Python]
 tags:	    [Python, 后台自动化]
 ---
 
