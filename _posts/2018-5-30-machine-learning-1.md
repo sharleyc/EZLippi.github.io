@@ -37,8 +37,7 @@ tags:	    [ml]
 
 我们要寻找最适合训练集的假设h，h是一个x到y的函数：  
 
-  ![](/images/images_2018/week1_1.png)   
-  ![](/images/images_2018/week1_1_0.png)   
+  ![](/images/images_2018/week1_1.png)     
   
 ## 代价函数    
 
