@@ -23,6 +23,7 @@ tags:	    [scikit-learn，线性回归]
     from sklearn.linear_model import LinearRegression
     import matplotlib.pyplot as plt
     from matplotlib import style  
+    from datetime import datetime
 
 ## 获取数据           
 
@@ -122,7 +123,7 @@ tags:	    [scikit-learn，线性回归]
 
    ![](/images/images_2018/6-1_4.png)    
 
-使用图标对历史数据和预测数据进行拼接和可视化：   
+使用图表对历史数据和预测数据进行拼接和可视化：   
 
     df['Adj. Close'].plot()
     df['Forecast'].plot()
