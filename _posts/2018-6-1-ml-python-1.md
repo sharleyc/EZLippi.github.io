@@ -132,4 +132,10 @@ tags:	    [scikit-learn，线性回归]
     plt.ylabel('Price')
     plt.show()
 
-   ![](/images/images_2018/6-1_5.png)   
+   ![](/images/images_2018/6-1_5.png)     
+
+参考资料：   
+http://bluewhale.cc/2017-10-13/use-python-to-predict-googles-closing-price.html   
+https://www.jianshu.com/p/3dfa4fb090d9       
+https://www.youtube.com/watch?v=QLVMqwpOLPk   
+
