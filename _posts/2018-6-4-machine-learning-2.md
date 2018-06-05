@@ -174,12 +174,38 @@ y=1时，如果假设函数也输出1，则代价函数为0，如果假设函数
 
    ![](/images/images_2018/6-4_33.png)    
 
-答案： 
+答案：B、C。 
 
    ![](/images/images_2018/6-4_34.png)   
 
-答案：   
+答案：A。 
 
+   ![](/images/images_2018/6-4_35.png) 
 
+答案：C。正则化参数过大会导致欠拟合，因此A和B是错误的；正则化可以减少过拟合的风险，同时也意味着会降低模型在训练集上的效果，因此C是正确的；正则化对于线性回归和逻辑回归都可以减少过拟合的风险，因此D是错误的。     
+
+   ![](/images/images_2018/6-4_36.png)    
+
+   ![](/images/images_2018/6-4_36_A.png) 
+
+   ![](/images/images_2018/6-4_36_B.png) 
+
+   ![](/images/images_2018/6-4_36_C.png) 
+
+   ![](/images/images_2018/6-4_36_D.png)   
+
+答案：A。A是过拟合，D是欠拟合，B和C是刚好。      
+
+   ![](/images/images_2018/6-4_37.png)    
+
+   ![](/images/images_2018/6-4_37_A.png) 
+
+   ![](/images/images_2018/6-4_37_B.png) 
+
+   ![](/images/images_2018/6-4_37_C.png) 
+
+   ![](/images/images_2018/6-4_37_D.png)   
+
+答案：A。A是欠拟合，B是过拟合，C和D是刚好。    
 
      
