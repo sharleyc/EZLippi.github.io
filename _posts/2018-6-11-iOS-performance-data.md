@@ -2,8 +2,8 @@
 layout:     post
 title:      iOS性能数据自动化获取之内存篇  
 keywords:   博客
-categories: [性能测试]
-tags:	    [iOS，性能测试]
+categories: [iOS]
+tags:	    [内存，性能测试]
 ---
 
 APP引入以下API进行二次开发：    
@@ -25,9 +25,27 @@ https://github.com/andrealufino/ALSystemUtilities/tree/develop/ALSystemUtilities
 （4）Purgeable Memory：可以理解为可释放的内存，主要是大对象或大内存块才可以使用的内存，此内存会在内存紧张的时候自动释放掉。    
 4、AppUsedMemory：APP占用内存。    
 
-## 低内存导致应用被杀问题的分析   
-  
-说明：  
+## iOS内存管理机制   
+
+### 引用计数  
+iOS采用的是引用计数来进行内存管理，即当对象生成(alloc)或被持有(retain)时，引用计数+1；当对象被释放(release)时，引用计数-1；只有引用计数为0时，系统才会调用dealloc真正销毁这个对象。  
+
+  ![](/images/images_2018/6-11_1.jpg)  
+ 
+引用计数分为两种：MRC（Mannul Reference Counting）手动引用计数，需要手动retain，release或者autorelease。ARC （Automatic Reference Counting）自动引用计数，系统自己管理内存。MRC时代，主要的内存泄漏是开发忘记release，而在ARC时代，虽然让我们解放双手，但是由于底层实现依然依赖引用计数，所以当涉及到blocks时，依然会出现cycle retain， crash等问题。   
+
+### 内存管理基本法则 
+
+1、自己生成的对象，自己持有
+
+2、非自己生成的对象，自己也能持有
+
+3、不再需要自己持有的对象时释放
+
+4、非自己持有的对象无法释放    
+
+### 低内存导致应用被杀问题的分析   
+    
 当Free Memory低于某个值时（由物理内存大小决定），系统会按照以下顺序使用Inactive的资源：    
 （1）首先，如果Inactive的数据最近被调用了，系统会把它们的状态改变成Active,并且在原有Active内存逻辑地址的后面。   
 （2）其次，如果Inactive的内存数据最近没有被使用过，但是曾经被更改过，而还没有在硬盘的相应虚拟[内存]中做修改，系统会对相应硬盘的虚拟内存做修改，并把这部分物理内存释放为free供程序使用。  
@@ -41,6 +59,10 @@ https://github.com/andrealufino/ALSystemUtilities/tree/develop/ALSystemUtilities
 另一个角度理解iOS内存使用：   
 
 用户使用的内存又分为四种：固定内存（Wired Memory），活跃内存（Active Memory），空闲内存（Inactive Memory），可用内存（Free Memory）。一般的释放内存软件大多是释放活跃内存，从而增加自由内存的可用量。 
+
+###iOS处理内存告警   
+
+iOS里每个APP可用的内存是被限制的，如果一个APP使用的内存超过20M，系统会向该APP发送memory warning消息。当程序第一次收到该告警时，应该释放一些不用的资源，以节省内存。iOS的UIViewController 类给我们提供了处理内存不足的接口。当系统内存不足时，首先UIViewController的didReceiveMemoryWarining 方法会被调用，super的didReceiveMemoryWarning会释放controller的resouce，不会释放view。（iOS6.0之前会释放view）
 
 ## 产品应用   
 
