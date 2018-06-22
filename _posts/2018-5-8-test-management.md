@@ -2,8 +2,8 @@
 layout:     post
 title:      测试团队管理经验谈
 keywords:   博客
-categories: [Android,Appium]
-tags:	    [自动化测试]
+categories: [杂项]
+tags:	    [测试，管理]
 ---
 
 本人所在的测试团队正在经历转型，仅以此文记录几点经验之谈。

@@ -2,7 +2,7 @@
 layout:     post
 title:      确定设备和平台再动手
 keywords:   博客
-categories: [移动App测试]
+categories: [杂项]
 tags:	    [移动App测试，设备，平台]
 ---
 

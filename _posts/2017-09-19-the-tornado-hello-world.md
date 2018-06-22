@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      Tornado学习总结(一)
+title:      Tornado学习总结
 keywords:   博客
-categories: [网络编程]
+categories: [杂项]
 tags:	    [Tornado]
 ---
 

@@ -2,7 +2,7 @@
 layout:     post
 title:      收藏的测试网站列表
 keywords:   博客
-categories: [收藏]
+categories: [杂项]
 tags:	    [测试网站]
 ---
 

@@ -2,7 +2,7 @@
 layout:     post
 title:      转-我读过最好的Epoll模型讲解
 keywords:   博客
-categories: [网络编程]
+categories: [杂项]
 tags:	    [Epoll]
 ---
 

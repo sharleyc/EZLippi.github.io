@@ -2,8 +2,8 @@
 layout:     post
 title:      Appium入门之安装与测试
 keywords:   博客
-categories: [Android,Appium]
-tags:	    [自动化测试]
+categories: [Android]
+tags:	    [Appium]
 ---
 
 Appium自动化测试是值得学习和研究的技术。Appium的核心是一个暴露了REST API的网络服务器，这个服务器接收客户端过来的连接，监听客户端过来的命令，在移动设备上运行命令，然后把代表命令运行结果的HTTP响应包发送回客户端。其优点是能进行跨应用和跨平台测试，支持webview，支持设备无源码测试，支持多语言。缺点是不太稳定，比较难用。但是瑕不掩瑜，测试人员在选择移动端自动化测试框架时，Appium总是会在备选之列。学习和掌握Appium不仅能帮助我们根据项目需求更好的选择合适的自动化工具，也对开发自己的测试框架有借鉴意义。

@@ -2,7 +2,7 @@
 layout:     post
 title:      收藏的测试文章列表（11/19/17 - 11/25/17）
 keywords:   博客
-categories: [收藏]
+categories: [杂项]
 tags:	    [测试网站]
 ---
 

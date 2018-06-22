@@ -2,7 +2,7 @@
 layout:     post
 title:      常见的Coverity缺陷类型（for Java）
 keywords:   博客
-categories: [静态代码扫描]
+categories: [杂项]
 tags:	    [Coverity,Java]
 ---
 和其它代码静态检测工具相比，Coverity的特别之处在于查找精确，具有业界最低的误报率（小于15%）。使用Coverity更易于发现像NULL指针引用、内存泄漏和缓冲区溢出等常常会带来很严重的质量和安全风险的缺陷类型，如果使用传统的测试方法，有时是难以找到的。公司内部Coverity相关的文章，最早可以追溯到12年，而使用Coverity提升过程质量的案例不胜枚举。笔者所在的部门是在17年才正式引入Coverity，半年多的时间，得到了开发人员的认可，整体bug修复率达到90%以上，而新增bug修复率则达到了100%。本文列举了一些Coverity能发现的常见的缺陷类型（For Java）。   
