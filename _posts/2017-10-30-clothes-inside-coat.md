@@ -2,7 +2,7 @@
 layout:     post
 title:      大衣的五件内搭
 keywords:   博客
-categories: [生活]
+categories: [杂项]
 tags:	    [穿衣搭配]
 ---
 2017年的深圳，10月下旬天气转凉了，入冬也就快了。冬天除了大衣，内搭也很重要。

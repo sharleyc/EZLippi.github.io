@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      双十笔记（一）
+title:      双十笔记
 keywords:   博客
-categories: [生活]
+categories: [杂项]
 tags:	    [心理]
 ---
 10月10日，是我的生日。我突然觉得我该记录一下今天发生的一些事情，以及自己的一些所思所想。

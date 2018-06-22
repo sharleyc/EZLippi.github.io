@@ -2,7 +2,7 @@
 layout:     post
 title:      极简主义的生活方式
 keywords:   博客
-categories: [生活]
+categories: [杂项]
 tags:	    [极简主义]
 ---
 

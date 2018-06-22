@@ -2,7 +2,7 @@
 layout:     post
 title:      复盘
 keywords:   博客
-categories: [项目管理]
+categories: [杂项]
 tags:	    [复盘]
 ---
 
