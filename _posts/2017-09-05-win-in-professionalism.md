@@ -2,8 +2,8 @@
 layout:     post
 title:      赢在职业化
 keywords:   博客
-categories: [Learn, professionalism]
-tags:	    [professionalism]
+categories: [杂项]
+tags:	    [职场观]
 ---
 
 培养正确的三观对于一个人来说是非常重要的。同样的，树立一个正确的职场观对于每个职场人来说同样重要，以下内容源自一个优秀的经理人的感悟，特摘录下来以供自省。
