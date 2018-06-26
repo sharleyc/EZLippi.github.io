@@ -39,4 +39,12 @@ tags:	    [python2，python3,windows]
 
 * 通过pip3 -V和pip2 -V 查看两个版本的pip信息，以后只需运行pip3 install和pip2 install即可安装各自的python包。  
 
-  ![](/images/images_2018/6-25_2.png)      
+  ![](/images/images_2018/6-25_2.png)    
+
+## 安装jupyter 
+
+* python3下运行命令：python3 -m pip install jupyter       
+
+* python2下运行命令：python2 -m pip install jupyter    
+
+* 运行jupyter notebook，运行命令：jupyter notebook   
