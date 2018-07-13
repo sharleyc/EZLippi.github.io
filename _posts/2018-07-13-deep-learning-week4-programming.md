@@ -51,7 +51,7 @@ To build your neural network, you will be implementing several "helper functions
     - Stack [LINEAR->RELU] backward L-1 times and add [LINEAR->SIGMOID] backward in a new L_model_backward function
 - Finally update the parameters.  
 
-   ![](/images/images_2018/final outline.png)      
+   ![](/images/images_2018/7-13_01.png)      
        
 <caption><center> **Figure 1**</center></caption><br>
 
