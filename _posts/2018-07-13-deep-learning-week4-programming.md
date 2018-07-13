@@ -49,9 +49,10 @@ To build your neural network, you will be implementing several "helper functions
     - We give you the gradient of the ACTIVATE function (relu_backward/sigmoid_backward) 
     - Combine the previous two steps into a new [LINEAR->ACTIVATION] backward function.
     - Stack [LINEAR->RELU] backward L-1 times and add [LINEAR->SIGMOID] backward in a new L_model_backward function
-- Finally update the parameters.    
+- Finally update the parameters.  
 
-<img src="images/images_2018/final outline.png" style="width:800px;height:500px;">         
+   ![](/images/images_2018/final outline.png)      
+       
 <caption><center> **Figure 1**</center></caption><br>
 
 
