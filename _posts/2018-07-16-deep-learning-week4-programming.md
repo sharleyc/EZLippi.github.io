@@ -712,7 +712,7 @@ $$ dA^{[l-1]} = \frac{\partial \mathcal{L} }{\partial A^{[l-1]}} = W^{[l] T} dZ^
 	    ### START CODE HERE ### (≈ 3 lines of code)
 	    dW = 1 / m * np.dot(dZ, A_prev.T)
 	    db = 1 / m * np.sum(dZ, axis = 1, keepdims = True)
-	    dA_prev = W.T * dZ
+	    dA_prev = np.dot(W.T, dZ) # W.T * dZ is wrong 
 	    ### END CODE HERE ###
 	    
 	    assert (dA_prev.shape == A_prev.shape)
