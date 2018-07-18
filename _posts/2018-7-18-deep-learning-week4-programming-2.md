@@ -245,27 +245,29 @@ dZ = relu_backward(dA, activation_cache)
 
 ### 6.3 - L层模型 反向传播
 
-Now you will implement the backward function for the whole network. Recall that when you implemented the `L_model_forward` function, at each iteration, you stored a cache which contains (X,W,b, and z). In the back propagation module, you will use those variables to compute the gradients. Therefore, in the `L_model_backward` function, you will iterate through all the hidden layers backward, starting from layer $L$. On each step, you will use the cached values for layer $l$ to backpropagate through layer $l$. Figure 5 below shows the backward pass. 
+你将实现整个神经网络的反向传播函数。回顾一下，你在之前的`L_model_forward`函数中，存储了(X,W,b, and z)。在反向传播模块中，你将会用到这些变量来计算梯度下降。因此在`L_model_backward`函数中，你将从**L**层开始迭代反向传播算法：  
+ 
 
   ![](/images/images_2018/mn_backward.png)   
 
 <center>  **Figure 5** : Backward pass  </center>
 
-** Initializing backpropagation**:
-To backpropagate through this network, we know that the output is, 
-$A^{[L]} = \sigma(Z^{[L]})$. Your code thus needs to compute `dAL` $= \frac{\partial \mathcal{L}}{\partial A^{[L]}}$.
-To do so, use this formula (derived using calculus which you don't need in-depth knowledge of):
-```python
+** 反向传播的初始化**： 
+
+我们可以利用以下公式来计算AL的偏导数：
+
+```
 dAL = - (np.divide(Y, AL) - np.divide(1 - Y, 1 - AL)) # derivative of cost with respect to AL
 ```
 
-You can then use this post-activation gradient `dAL` to keep going backward. As seen in Figure 5, you can now feed in `dAL` into the LINEAR->SIGMOID backward function you implemented (which will use the cached values stored by the L_model_forward function). After that, you will have to use a `for` loop to iterate through all the other layers using the LINEAR->RELU backward function. You should store each dA, dW, and db in the grads dictionary. To do so, use this formula : 
+接下来你就可以利用`dAL`来进行反向传播了。将`dAL` 和对应的缓存变量带入LINEAR->SIGMOID 反向传播函数中，得到dAL-1,dWL,dbL，在循环迭代LINEAR->RELU 反向传播函数，将得到的dA,dW,db存放在grads字典中：   
+
 
 $$grads["dW" + str(l)] = dW^{[l]}\tag{15} $$
 
-For example, for $l=3$ this would store $dW^{[l]}$ in `grads["dW3"]`.
+比如，如果 $l=3$ 那么 $dW^{[l]}$ 存储在 `grads["dW3"]`中。  
 
-**Exercise**: Implement backpropagation for the *[LINEAR->RELU] $\times$ (L-1) -> LINEAR -> SIGMOID* model. 
+**Exercise**: 完成*[LINEAR->RELU] $\times$ (L-1) -> LINEAR -> SIGMOID* 部分的反向传播算法。
 
 
 
@@ -353,20 +355,21 @@ For example, for $l=3$ this would store $dW^{[l]}$ in `grads["dW3"]`.
   </tr> 
 </table>
 
-### 6.4 - Update Parameters
+### 6.4 - 更新参数
 
-In this section you will update the parameters of the model, using gradient descent: 
+在这个部分，你将使用梯度下降算法来更新模型的参数：    
 
 $$ W^{[l]} = W^{[l]} - \alpha \text{ } dW^{[l]} \tag{16}$$
 $$ b^{[l]} = b^{[l]} - \alpha \text{ } db^{[l]} \tag{17}$$
 
-where $\alpha$ is the learning rate. After computing the updated parameters, store them in the parameters dictionary. 
+其中 $\alpha$ 是学习速率。计算出新参数后，将它们存储在parameters 字典中。  
 
 
-**Exercise**: Implement `update_parameters()` to update your parameters using gradient descent.
+**Exercise**: 实现 `update_parameters()` 函数。 
 
 **Instructions**:
-Update parameters using gradient descent on every $W^{[l]}$ and $b^{[l]}$ for $l = 1, 2, ..., L$.  
+使用梯度下降算法，更新计算每一个参数  
+ $W^{[l]}$ and $b^{[l]}$ for $l = 1, 2, ..., L$.  
 
 	# GRADED FUNCTION: update_parameters
 	
@@ -389,8 +392,8 @@ Update parameters using gradient descent on every $W^{[l]}$ and $b^{[l]}$ for $l
 	    # Update rule for each parameter. Use a for loop.
 	    ### START CODE HERE ### (≈ 3 lines of code)
 	    for l in range(L):
-	        parameters["W" + str(l+1)] = parameters["W" + str(l+1)] - learning_rate * grads["dW"+str(l+1)]
-	        parameters["b" + str(l+1)] = parameters["b" + str(l+1)] - learning_rate * grads["db"+str(l+1)]
+	        parameters["W" + str(l+1)] -= learning_rate * grads["dW"+str(l+1)]
+	        parameters["b" + str(l+1)] -= learning_rate * grads["db"+str(l+1)]
 	    ### END CODE HERE ###
 	    return parameters 
 
@@ -435,14 +438,14 @@ Update parameters using gradient descent on every $W^{[l]}$ and $b^{[l]}$ for $l
 
 ----------------------------------
 
-## 7 - Conclusion
+## 7 - 总结
 
-Congrats on implementing all the functions required for building a deep neural network! 
 
-We know it was a long assignment but going forward it will only get better. The next part of the assignment is easier. 
+恭喜你实现了构建深度神经网络所需的所有函数！
+ 
+接下来的作业中，你需要完成两个模型：  
 
-In the next assignment you will put all these together to build two models:
-- A two-layer neural network
-- An L-layer neural network
+- 一个两层的神经网络模型
+- 一个**L**层的神经网络模型
 
-You will in fact use these models to classify cat vs non-cat images!
+你将应用这些模型来区分给定的图片，哪些是猫，哪些不是。  
