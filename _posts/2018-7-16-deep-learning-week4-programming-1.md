@@ -524,20 +524,20 @@ A, activation_cache = relu(Z)
 
 ### d) L层模型  
 
-For even more convenience when implementing the $L$-layer Neural Net, you will need a function that replicates the previous one (`linear_activation_forward` with RELU) $L-1$ times, then follows that with one `linear_activation_forward` with SIGMOID. 
+为了方便L层模型的实现，我们需要一个函数，重复执行`linear_activation_forward`（RELU) **L-1** 次，最后执行一次 `linear_activation_forward`(SIGMOID)。   
 
    ![](/images/images_2018/model_architecture_kiank.png)    
 
 <center> **Figure 2** : *[LINEAR -> RELU] $\times$ (L-1) -> LINEAR -> SIGMOID* model</center>
 
-**Exercise**: Implement the forward propagation of the above model.
+**Exercise**: 完成上述要求。  
 
-**Instruction**: In the code below, the variable `AL` will denote $A^{[L]} = \sigma(Z^{[L]}) = \sigma(W^{[L]} A^{[L-1]} + b^{[L]})$. (This is sometimes also called `Yhat`, i.e., this is $\hat{Y}$.) 
+**Instruction**: 变量 `AL` 表示 $A^{[L]} = \sigma(Z^{[L]}) = \sigma(W^{[L]} A^{[L-1]} + b^{[L]})$。(即 `Yhat`, i.e., $\hat{Y}$.)  
 
-**Tips**:
-- Use the functions you had previously written 
-- Use a for loop to replicate [LINEAR->RELU] (L-1) times
-- Don't forget to keep track of the caches in the "caches" list. To add a new value `c` to a `list`, you can use `list.append(c)`.
+**Tips**:  
+- 使用已经写好的函数    
+- 使用loop循环执行 [LINEAR->RELU] (L-1) 次   
+- 持续更新"caches" 列表。 `list`增加 `c` ，可以使用方法`list.append(c)`。
 
 	# GRADED FUNCTION: L_model_forward
 	
@@ -587,24 +587,27 @@ For even more convenience when implementing the $L$-layer Neural Net, you will n
 ---------------------------------
 <table style="width:50%">
   <tr>
-    <td> **AL** </td>
+    <td> AL </td>
     <td > [[ 0.03921668  0.70498921  0.19734387  0.04728177]]</td> 
   </tr>
   <tr>
-    <td> **Length of caches list ** </td>
+    <td> Length of caches list  </td>
     <td > 3 </td> 
   </tr>
 </table>
 
-Great! Now you have a full forward propagation that takes the input X and outputs a row vector $A^{[L]}$ containing your predictions. It also records all intermediate values in "caches". Using $A^{[L]}$, you can compute the cost of your predictions.
+现在，你已经完成了整个前向传播，输入是X，输出是行向量 $A^{[L]}$，其中包含你的预测值。 所有的中间变量记录在了 "caches"中。 利用 $A^{[L]}$， 你可以计算代价函数的值。
 
 
 
-## 5 - Cost function
+## 5 - 代价函数
 
-Now you will implement forward and backward propagation. You need to compute the cost, because you want to check if your model is actually learning.
+为了检验你的模型是否有效，需要计算代价函数的值。  
 
-**Exercise**: Compute the cross-entropy cost $J$, using the following formula: $$-\frac{1}{m} \sum\limits_{i = 1}^{m} (y^{(i)}\log\left(a^{[L] (i)}\right) + (1-y^{(i)})\log\left(1- a^{[L](i)}\right)) \tag{7}$$
+**Exercise**:  
+
+计算公式 $J$ 如下所示：   
+ $$-\frac{1}{m} \sum\limits_{i = 1}^{m} (y^{(i)}\log\left(a^{[L] (i)}\right) + (1-y^{(i)})\log\left(1- a^{[L](i)}\right)) \tag{7}$$
 
 
 	# GRADED FUNCTION: compute_cost
