@@ -62,16 +62,16 @@ Let's first import all the packages that you will need during this assignment.
 
 ## 3 - 初始化
 
-You will write two helper functions that will initialize the parameters for your model. The first function will be used to initialize parameters for a two layer model. The second one will generalize this initialization process to **L** layers.
+你需要编写两个有用的函数来初始化模型的参数。一个用来初始化2层模型的参数，一个用来初始化**L**层模型的参数。
 
-### 3.1 - 2-layer Neural Network
+### 3.1 - 2层神经网络
 
-**Exercise**: Create and initialize the parameters of the 2-layer neural network.
+**Exercise**: 创建并初始化2层神经网络的参数。
 
-**Instructions**:
-- The model's structure is: *LINEAR -> RELU -> LINEAR -> SIGMOID*. 
-- Use random initialization for the weight matrices. Use `np.random.randn(shape)*0.01` with the correct shape.
-- Use zero initialization for the biases. Use `np.zeros(shape)`.
+**Instructions**:   
+- 模型结构: *LINEAR -> RELU -> LINEAR -> SIGMOID*.      
+- 权重矩阵使用随机初始化： Use `np.random.randn(shape)*0.01` with the correct shape.   
+- 偏差使用0初始化： Use `np.zeros(shape)`.
      
 	# GRADED FUNCTION: initialize_parameters
 	
@@ -117,6 +117,8 @@ You will write two helper functions that will initialize the parameters for your
 		print("b1 = " + str(parameters["b1"]))
 		print("W2 = " + str(parameters["W2"]))
 		print("b2 = " + str(parameters["b2"]))
+
+-----------------------------------
 
 **Expected output**:
        
@@ -174,9 +176,9 @@ np.zeros(shape, dtype=float, order='C')
 	       [0.]])  
 
 
-### 3.2 - L-layer Neural Network
+### 3.2 - L层神经网络
 
-The initialization for a deeper L-layer neural network is more complicated because there are many more weight matrices and bias vectors. When completing the `initialize_parameters_deep`, you should make sure that your dimensions match between each layer. Recall that $n^{[l]}$ is the number of units in layer $l$. Thus for example if the size of our input $X$ is $(12288, 209)$ (with $m=209$ examples) then:
+对于深层神经网络，初始化更复杂，因为有更多的权重矩阵和偏差向量。 当完成 `initialize_parameters_deep`时，你需要保证各层的维度的准确性。Recall that $n^{[l]}$ is the number of units in layer $l$. Thus for example if the size of our input $X$ is $(12288, 209)$ (with $m=209$ examples) then:
 
 <table style="width:100%">
 
@@ -233,7 +235,7 @@ The initialization for a deeper L-layer neural network is more complicated becau
 
 </table>
 
-Remember that when we compute $W X + b$ in python, it carries out broadcasting. For example, if: 
+记住，在Python中计算 $W X + b$ 时, 会用到Broadcasting机制（将在另一篇博客中专门来阐述它）。 例如：  
 
 $$ W = \begin{bmatrix}
     j  & k  & l\\
@@ -258,14 +260,15 @@ $$ WX + b = \begin{bmatrix}
     (pa + qd + rg) + u & (pb + qe + rh) + u & (pc + qf + ri)+ u
 \end{bmatrix}\tag{3}  $$
 
-**Exercise**: Implement initialization for an L-layer Neural Network. 
+**Exercise**: 完成L层神经网络的初始化。 
 
-**Instructions**:
-- The model's structure is *[LINEAR -> RELU] $ \times$ (L-1) -> LINEAR -> SIGMOID*. I.e., it has $L-1$ layers using a ReLU activation function followed by an output layer with a sigmoid activation function.
-- Use random initialization for the weight matrices. Use `np.random.randn(shape) * 0.01`.
-- Use zeros initialization for the biases. Use `np.zeros(shape)`.
-- We will store $n^{[l]}$, the number of units in different layers, in a variable `layer_dims`. For example, the `layer_dims` for the "Planar Data classification model" from last week would have been [2,4,1]: There were two inputs, one hidden layer with 4 hidden units, and an output layer with 1 output unit. Thus means `W1`'s shape was (4,2), `b1` was (4,1), `W2` was (1,4) and `b2` was (1,1). Now you will generalize this to $L$ layers! 
-- Here is the implementation for $L=1$ (one layer neural network). It should inspire you to implement the general case (L-layer neural network).
+**Instructions**:   
+- 模型结构：  *[LINEAR -> RELU] $ \times$ (L-1) -> LINEAR -> SIGMOID*。即 **L-1** 层使用ReLU激励函数，**L**（输出层）使用sigmoid 激励函数。    
+- 权重矩阵使用随机初始化：Use `np.random.randn(shape) * 0.01`。  
+- 偏差使用0初始化：Use `np.zeros(shape)`。    
+- 使用变量`layer_dims`存储各层的神经单元数，比如[2,4,1]表示：输入层2个单元，隐藏层4个单元，输出层1个单元。因此`W1`的shape是 (4,2)， `b1` 是 (4,1), `W2` 是 (1,4) ， `b2` 是 (1,1)。 你可以扩展到L层的情况。    
+- 这里给出了L=1时的具体实现，你可以依此得到L层的实现方法。
+
 
     if L == 1:
         parameters["W" + str(L)] = np.random.randn(layer_dims[1], layer_dims[0]) * 0.01
@@ -311,16 +314,17 @@ $$ WX + b = \begin{bmatrix}
 **Expected output**:
        
 <table style="width:80%">
-  <tr>
-    <td> **W1** </td>
-    <td>[[ 0.01788628  0.0043651   0.00096497 -0.01863493 -0.00277388]
- [-0.00354759 -0.00082741 -0.00627001 -0.00043818 -0.00477218]
+  <tr>   
+    <td> W1 </td>
+    <td> 
+ [[ 0.01788628  0.0043651   0.00096497 -0.01863493 -0.00277388]
+ [-0.00354759 -0.00082741 -0.00627001 -0.00043818 -0.00477218]   
  [-0.01313865  0.00884622  0.00881318  0.01709573  0.00050034]
  [-0.00404677 -0.0054536  -0.01546477  0.00982367 -0.01101068]]</td> 
   </tr>
   
   <tr>
-    <td>**b1** </td>
+    <td>b1 </td>
     <td>[[ 0.]
  [ 0.]
  [ 0.]
@@ -328,14 +332,15 @@ $$ WX + b = \begin{bmatrix}
   </tr>
   
   <tr>
-    <td>**W2** </td>
-    <td>[[-0.01185047 -0.0020565   0.01486148  0.00236716]
+    <td>W2 </td>
+    <td>
+[[-0.01185047 -0.0020565   0.01486148  0.00236716]
  [-0.01023785 -0.00712993  0.00625245 -0.00160513]
  [-0.00768836 -0.00230031  0.00745056  0.01976111]]</td> 
   </tr>
   
   <tr>
-    <td>**b2** </td>
+    <td>b2 </td>
     <td>[[ 0.]
  [ 0.]
  [ 0.]]</td> 
@@ -343,25 +348,27 @@ $$ WX + b = \begin{bmatrix}
   
 </table>
 
-## 4 - Forward propagation module
+## 4 - 前向传播模块
 
-### 4.1 - Linear Forward 
-Now that you have initialized your parameters, you will do the forward propagation module. You will start by implementing some basic functions that you will use later when implementing the model. You will complete three functions in this order:
+### 4.1 - Linear Forward  
+
+我们将依次实现3个函数的编写:
 
 - LINEAR
 - LINEAR -> ACTIVATION where ACTIVATION will be either ReLU or Sigmoid. 
 - [LINEAR -> RELU] $\times$ (L-1) -> LINEAR -> SIGMOID (whole model)
 
-The linear forward module (vectorized over all the examples) computes the following equations:
+这个部分即以下公式的向量化实现：  
 
 $$Z^{[l]} = W^{[l]}A^{[l-1]} +b^{[l]}\tag{4}$$
 
 where $A^{[0]} = X$. 
 
-**Exercise**: Build the linear part of forward propagation.
+**Exercise**: 完成前向传播算法的线性部分。
 
-**Reminder**:
-The mathematical representation of this unit is $Z^{[l]} = W^{[l]}A^{[l-1]} +b^{[l]}$. You may also find `np.dot()` useful. If your dimensions don't match, printing `W.shape` may help.
+**Reminder**: 
+
+需要用到的数学公式是: $Z^{[l]} = W^{[l]}A^{[l-1]} +b^{[l]}$。 函数`np.dot()` 会很有用。 你需要保证各个变量的维度正确性，`W.shape`能帮助查看相关信息。   
 
 
 	# GRADED FUNCTION: linear_forward
@@ -389,6 +396,7 @@ The mathematical representation of this unit is $Z^{[l]} = W^{[l]}A^{[l-1]} +b^{
 	    
 	    return Z, cache
 
+-------------------------
 
 	A, W, b = linear_forward_test_case()
 	Z, linear_cache = linear_forward(A, W, b)
@@ -401,7 +409,7 @@ The mathematical representation of this unit is $Z^{[l]} = W^{[l]}A^{[l-1]} +b^{
 <table style="width:35%">
   
   <tr>
-    <td> **Z** </td>
+    <td> Z </td>
     <td> [[ 3.26295337 -1.23429987]] </td> 
   </tr>
   
@@ -430,24 +438,23 @@ The mathematical representation of this unit is $Z^{[l]} = W^{[l]}A^{[l-1]} +b^{
 	32
 
 
-
 ### 4.2 - Linear-Activation Forward
 
-In this notebook, you will use two activation functions:
+这次作业会用到两个激励函数： 
 
-- **Sigmoid**: $\sigma(Z) = \sigma(W A + b) = \frac{1}{ 1 + e^{-(W A + b)}}$. We have provided you with the `sigmoid` function. This function returns **two** items: the activation value "`a`" and a "`cache`" that contains "`Z`" (it's what we will feed in to the corresponding backward function). To use it you could just call: 
-``` python
+- **Sigmoid**: $\sigma(Z) = \sigma(W A + b) = \frac{1}{ 1 + e^{-(W A + b)}}$. 作业里已经实现了 `sigmoid` 函数。函数返回了两个项： A 和 包含 "`Z`" 的`cache`，在作业里直接调用该函数即可：
+``` 
 A, activation_cache = sigmoid(Z)
 ```
 
-- **ReLU**: The mathematical formula for ReLu is $A = RELU(Z) = max(0, Z)$. We have provided you with the `relu` function. This function returns **two** items: the activation value "`A`" and a "`cache`" that contains "`Z`" (it's what we will feed in to the corresponding backward function). To use it you could just call:
-``` python
+- **ReLU**: ReLu的数学公式是 $A = RELU(Z) = max(0, Z)$。同样的，`relu` 函数已经实现了，返回项同`sigmoid` 函数，在作业里直接调用该函数即可：
+``` 
 A, activation_cache = relu(Z)
 ```
 
-For more convenience, you are going to group two functions (Linear and Activation) into one function (LINEAR->ACTIVATION). Hence, you will implement a function that does the LINEAR forward step followed by an ACTIVATION forward step.
+为了方便调用，我们将上述两个函数集成到一个函数中，这里需要你完成这个函数的编写。
 
-**Exercise**: Implement the forward propagation of the *LINEAR->ACTIVATION* layer. Mathematical relation is: $A^{[l]} = g(Z^{[l]}) = g(W^{[l]}A^{[l-1]} +b^{[l]})$ where the activation "g" can be sigmoid() or relu(). Use linear_forward() and the correct activation function.
+**Exercise**: 函数完成的是前向传播算法的*LINEAR->ACTIVATION* 模块。对应的数学公式是: $A^{[l]} = g(Z^{[l]}) = g(W^{[l]}A^{[l-1]} +b^{[l]})$。公式里的激励函数 "g" 可以是 sigmoid() 或 relu()。  
 
 
 
@@ -503,22 +510,19 @@ For more convenience, you are going to group two functions (Linear and Activatio
        
 <table style="width:35%">
   <tr>
-    <td> **With sigmoid: A ** </td>
+    <td> With sigmoid: A  </td>
     <td > [[ 0.96890023  0.11013289]]</td> 
   </tr>
   <tr>
-    <td> **With ReLU: A ** </td>
+    <td> With ReLU: A  </td>
     <td > [[ 3.43896131  0.        ]]</td> 
   </tr>
 </table> 
 
 **Note**: In deep learning, the "[LINEAR->ACTIVATION]" computation is counted as a single layer in the neural network, not two layers.   
+  
 
-### sigmoid() && relu() 
-
-在这部分练习中，不需要去实现sigmoid()和relu()，直接调用即可。 如果在这里实现这两个函数，即使运行结果正确，也会无法通过测试。  
-
-### d) L-Layer Model 
+### d) L层模型  
 
 For even more convenience when implementing the $L$-layer Neural Net, you will need a function that replicates the previous one (`linear_activation_forward` with RELU) $L-1$ times, then follows that with one `linear_activation_forward` with SIGMOID. 
 
