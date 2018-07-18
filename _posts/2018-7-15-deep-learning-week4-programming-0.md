@@ -53,7 +53,7 @@ Let's first import all the packages that you will need during this assignment.
     - 执行 [LINEAR->RELU] 反向传播函数 L-1 次 且 执行一次[LINEAR->SIGMOID] 反向传播函数。最终即是L层模型的反向传播函数。
 - 更新参数。  
 
-   ![](/images/images_2018/7-16_01.png)         
+   ![](/images/images_2018/final outline.png)         
        
  <center>**Figure 1**</center> 
 
