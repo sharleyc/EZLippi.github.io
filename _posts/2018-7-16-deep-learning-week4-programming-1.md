@@ -180,8 +180,9 @@ np.zeros(shape, dtype=float, order='C')
 
 对于深层神经网络，初始化更复杂，因为有更多的权重矩阵和偏差向量。 当完成 `initialize_parameters_deep`时，你需要保证各层的维度的准确性。Recall that $n^{[l]}$ is the number of units in layer $l$. Thus for example if the size of our input $X$ is $(12288, 209)$ (with $m=209$ examples) then:
 
-<table style="width:100%">
 
+<table style="width:100%">
+  
 
     <tr>
         <td>  </td> 
@@ -233,9 +234,11 @@ np.zeros(shape, dtype=float, order='C')
         <td> $(n^{[L]}, 209)$  </td> 
     <tr>
 
-</table>
+</table>   
 
-记住，在Python中计算 $W X + b$ 时, 会用到Broadcasting机制（将在另一篇博客中专门来阐述它）。 例如：  
+
+
+记住，在Python中计算 $W X + b$ 时, 会用到Broadcasting机制（将在另一篇博客中专门来阐述它）。 例如：       
 
 $$ W = \begin{bmatrix}
     j  & k  & l\\
@@ -250,19 +253,22 @@ $$ W = \begin{bmatrix}
     t  \\
     u
 \end{bmatrix}\tag{2}$$
+  
 
-Then $WX + b$ will be:
+Then $WX + b$ will be:  
+
 
   
 $$ WX + b = \begin{bmatrix}
     (ja + kd + lg) + s  & (jb + ke + lh) + s  & (jc + kf + li)+ s\\
     (ma + nd + og) + t & (mb + ne + oh) + t & (mc + nf + oi) + t\\
     (pa + qd + rg) + u & (pb + qe + rh) + u & (pc + qf + ri)+ u
-\end{bmatrix}\tag{3}  $$
+\end{bmatrix}\tag{3}  $$         
 
-**Exercise**: 完成L层神经网络的初始化。 
+**Exercise**: 完成L层神经网络的初始化。    
 
-**Instructions**:   
+
+**Instructions**:       
 - 模型结构：  *[LINEAR -> RELU] $ \times$ (L-1) -> LINEAR -> SIGMOID*。即 **L-1** 层使用ReLU激励函数，**L**（输出层）使用sigmoid 激励函数。    
 - 权重矩阵使用随机初始化：Use `np.random.randn(shape) * 0.01`。  
 - 偏差使用0初始化：Use `np.zeros(shape)`。    
@@ -346,7 +352,9 @@ $$ WX + b = \begin{bmatrix}
  [ 0.]]</td> 
   </tr>
   
-</table>
+</table>  
+
+
 
 ## 4 - 前向传播模块
 
@@ -535,6 +543,7 @@ A, activation_cache = relu(Z)
 **Instruction**: 变量 `AL` 表示 $A^{[L]} = \sigma(Z^{[L]}) = \sigma(W^{[L]} A^{[L-1]} + b^{[L]})$。(即 `Yhat`, i.e., $\hat{Y}$.)  
 
 **Tips**:  
+
 - 使用已经写好的函数    
 - 使用loop循环执行 [LINEAR->RELU] (L-1) 次   
 - 持续更新"caches" 列表。 `list`增加 `c` ，可以使用方法`list.append(c)`。
