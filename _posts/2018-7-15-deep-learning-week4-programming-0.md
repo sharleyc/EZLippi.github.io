@@ -1,6 +1,6 @@
 ---
 layout:     post  
-title:      深层神经网络编程作业(上)   
+title:      深层神经网络编程作业(一)  
 keywords:   博客   
 categories: [机器学习]   
 tags:	    [深度学习，深层神经网络]  
