@@ -178,12 +178,10 @@ np.zeros(shape, dtype=float, order='C')
 
 ### 3.2 - L层神经网络
 
-对于深层神经网络，初始化更复杂，因为有更多的权重矩阵和偏差向量。 当完成 `initialize_parameters_deep`时，你需要保证各层的维度的准确性。Recall that $n^{[l]}$ is the number of units in layer $l$. Thus for example if the size of our input $X$ is $(12288, 209)$ (with $m=209$ examples) then:
+对于深层神经网络，初始化更复杂，因为有更多的权重矩阵和偏差向量。 当完成 `initialize_parameters_deep`时，你需要保证各层的维度的准确性。
 
 
 <table style="width:100%">
-  
-
     <tr>
         <td>  </td> 
         <td> **Shape of W** </td> 
@@ -268,7 +266,8 @@ $$ WX + b = \begin{bmatrix}
 **Exercise**: 完成L层神经网络的初始化。    
 
 
-**Instructions**:       
+**Instructions**:   
+    
 - 模型结构：  *[LINEAR -> RELU] $ \times$ (L-1) -> LINEAR -> SIGMOID*。即 **L-1** 层使用ReLU激励函数，**L**（输出层）使用sigmoid 激励函数。    
 - 权重矩阵使用随机初始化：Use `np.random.randn(shape) * 0.01`。  
 - 偏差使用0初始化：Use `np.zeros(shape)`。    
