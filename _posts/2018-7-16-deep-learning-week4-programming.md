@@ -1,10 +1,12 @@
 ---
 layout:     post  
-title:      Building your Deep Neural Network: Step by Step   
+title:      深层神经网络编程作业(上)   
 keywords:   博客   
 categories: [机器学习]   
 tags:	    [深度学习，深层神经网络]  
 ---
+
+这部分是深层神经网络的编程作业的上篇，主要是初始化和前向传播的实现。
 
 ## 1 - 需要的库文件  
 
