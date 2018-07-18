@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      深度学习之深层神经网络--编程作业(Building your Deep Neural Network: Step by Step)  
+title:      Building your Deep Neural Network: Step by Step)  
 keywords:   博客
 categories: [机器学习]
 tags:	    [深度学习，深层神经网络]
