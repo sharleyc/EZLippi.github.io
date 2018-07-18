@@ -53,7 +53,7 @@ Let's first import all the packages that you will need during this assignment.
     - Stack [LINEAR->RELU] backward L-1 times and add [LINEAR->SIGMOID] backward in a new L_model_backward function
 - 更新参数。  
 
-   ![](/images/images_2018/7-13_01.png)         
+   ![](/images/images_2018/7-16_01.png)         
        
  <center>**Figure 1**</center> 
 
