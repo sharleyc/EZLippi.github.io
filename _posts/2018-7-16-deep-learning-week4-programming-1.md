@@ -41,16 +41,16 @@ Let's first import all the packages that you will need during this assignment.
 
 - 参数初始化。
 - 完成前向传播模块（下图的紫色部分）。
-     - 完成前向传播的线性模块(resulting in  $Z^{[l]}$).
+     - 完成前向传播的线性模块(resulting in  $Z^{[l]}$)。
      - 我们提供给你激励函数 (relu/sigmoid)。
-     - Combine the previous two steps into a new [LINEAR->ACTIVATION] forward function.
-     - Stack the [LINEAR->RELU] forward function L-1 time (for layers 1 through L-1) and add a [LINEAR->SIGMOID] at the end (for the final layer **L**). This gives you a new L_model_forward function.
-- 计算损失函数。
-- 完成后向传播模块（下图的红色部分）.
-    - Complet the LINEAR part of a layer's backward propagation step.
-    - We give you the gradient of the ACTIVATE function (relu_backward/sigmoid_backward) 
-    - Combine the previous two steps into a new [LINEAR->ACTIVATION] backward function.
-    - Stack [LINEAR->RELU] backward L-1 times and add [LINEAR->SIGMOID] backward in a new L_model_backward function
+     - 结合前面两步得到 [LINEAR->ACTIVATION] 的前向传播函数。
+     - 执行 [LINEAR->RELU] 前向传播函数 L-1 次 ( 1层 至 L-1层) 且 执行一次 [LINEAR->SIGMOID]  (**L** 层)。最终你就得到了L层模型的前向传播函数。   
+- 计算损失。
+- 完成反向传播模块（下图的红色部分）.
+    - 完成反向传播的线性部分。
+    - 我们提供给你激励函数(relu_backward/sigmoid_backward) 的梯度下降算法。 
+    - 结合前面两步得到 [LINEAR->ACTIVATION] 的反向传播函数。
+    - 执行 [LINEAR->RELU] 反向传播函数 L-1 次 且 执行一次[LINEAR->SIGMOID] 反向传播函数。最终即是L层模型的反向传播函数。
 - 更新参数。  
 
    ![](/images/images_2018/7-16_01.png)         
