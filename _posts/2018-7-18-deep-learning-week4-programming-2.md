@@ -1,17 +1,17 @@
 ---
 layout:     post
-title:      深层神经网络编程作业(下)  
+title:      深层神经网络编程作业(二)  
 keywords:   博客
 categories: [机器学习]
 tags:	    [深度学习，深层神经网络]
 ---
 
-这部分是深层神经网络的编程作业的下篇，主要是后向传播的实现。 
+这部分是深层神经网络的编程作业的下篇，主要是反向传播的实现。 
 
 
-## 6 - Backward propagation module
+## 6 - 反向传播模块 
 
-Just like with forward propagation, you will implement helper functions for backpropagation. Remember that back propagation is used to calculate the gradient of the loss function with respect to the parameters. 
+同前向传播类似，你需要实现一些有用的函数。请记住反向传播是用来计算损失函数关于某些参数的梯度。
 
 **Reminder**:      
 
@@ -31,29 +31,31 @@ Equivalently, in order to calculate the gradient $db^{[1]} = \frac{\partial L}{\
 This is why we talk about **backpropagation**.
 !-->
 
-Now, similar to forward propagation, you are going to build the backward propagation in three steps:   
-- LINEAR backward        
-- LINEAR -> ACTIVATION backward where ACTIVATION computes the derivative of either the ReLU or sigmoid activation   
-- [LINEAR -> RELU] $\times$ (L-1) -> LINEAR -> SIGMOID backward (whole model)
+类似前向传播，你将用三步来完成反向传播： 
+  
+- LINEAR 反向传播        
+- LINEAR -> ACTIVATION 反向传播，计算激励函数的偏导数
+- [LINEAR -> RELU] $\times$ (L-1) -> LINEAR -> SIGMOID 反向传播 (整个模型)
 
 
-### 6.1 - Linear backward
+### 6.1 - 线性反向传播
 
-For layer $l$, the linear part is: $Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}$ (followed by an activation).
+层 $l$, 线性公式是： $Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}$ 。
 
-Suppose you have already calculated the derivative $dZ^{[l]} = \frac{\partial \mathcal{L} }{\partial Z^{[l]}}$. You want to get $(dW^{[l]}, db^{[l]} dA^{[l-1]})$.
+假设你已经计算出偏导数： $dZ^{[l]} = \frac{\partial \mathcal{L} }{\partial Z^{[l]}}$。 你想计算出 $(dW^{[l]}, db^{[l]} dA^{[l-1]})$。
 
   ![](/images/images_2018/linearback_kiank.png)  
 
 <center> **Figure 4** </center>
 
-The three outputs $(dW^{[l]}, db^{[l]}, dA^{[l]})$ are computed using the input $dZ^{[l]}$.Here are the formulas you need:   
+利用输入 $dZ^{[l]}$ 可以计算出3个输出 $(dW^{[l]}, db^{[l]}, dA^{[l]})。你需要用到以下三个公式：       
+   
 $$ dW^{[l]} = \frac{\partial \mathcal{L} }{\partial W^{[l]}} = \frac{1}{m} dZ^{[l]} A^{[l-1] T} \tag{8}$$   
 $$ db^{[l]} = \frac{\partial \mathcal{L} }{\partial b^{[l]}} = \frac{1}{m} \sum_{i = 1}^{m} dZ^{[l](i)}\tag{9}$$   
 $$ dA^{[l-1]} = \frac{\partial \mathcal{L} }{\partial A^{[l-1]}} = W^{[l] T} dZ^{[l]} \tag{10}$$  
 
 
-**Exercise**: Use the 3 formulas above to implement linear_backward().  
+**Exercise**: 利用以上3个公式完成函数linear_backward()的编写。   
 
 	# GRADED FUNCTION: linear_backward
 	
@@ -102,47 +104,47 @@ $$ dA^{[l-1]} = \frac{\partial \mathcal{L} }{\partial A^{[l-1]}} = W^{[l] T} dZ^
 
 <table style="width:90%">
   <tr>
-    <td> **dA_prev** </td>
+    <td> dA_prev </td>
     <td > [[ 0.51822968 -0.19517421]
  [-0.40506361  0.15255393]
  [ 2.37496825 -0.89445391]] </td> 
   </tr> 
   
     <tr>
-        <td> **dW** </td>
+        <td> dW </td>
         <td > [[-0.10076895  1.40685096  1.64992505]] </td> 
     </tr> 
   
     <tr>
-        <td> **db** </td>
+        <td> db </td>
         <td> [[ 0.50629448]] </td> 
     </tr> 
     
 </table>
 
 
-### 6.2 - Linear-Activation backward
+### 6.2 - 线性激活函数反向传播
 
-Next, you will create a function that merges the two helper functions: **`linear_backward`** and the backward step for the activation **`linear_activation_backward`**. 
+接下来是完成**`linear_activation_backward`**函数的编写，这个函数合并了两个有用的函数：**`linear_backward`**，以及激励单元的反向传播。
 
-To help you implement `linear_activation_backward`, we provided two backward functions:     
+我们提供了两个反向传播函数，来帮助你完成`linear_activation_backward`。    
 
-- **`sigmoid_backward`**: Implements the backward propagation for SIGMOID unit. You can call it as follows:
+- **`sigmoid_backward`**: 完成SIGMOID单元的反向传播。调用方法如下：   
 
 ```
 dZ = sigmoid_backward(dA, activation_cache)
 ```
 
-- **`relu_backward`**: Implements the backward propagation for RELU unit. You can call it as follows:
+- **`relu_backward`**: 完成RELU单元的反向传播。调用方法如下：
 
 ```
 dZ = relu_backward(dA, activation_cache)
 ```
 
-If $g(.)$ is the activation function, 
-`sigmoid_backward` and `relu_backward` compute $$dZ^{[l]} = dA^{[l]} * g'(Z^{[l]}) \tag{11}$$.  
+假设 $g(.)$ 是激励函数， 
+`sigmoid_backward` 和 `relu_backward` 计算的是 $$dZ^{[l]} = dA^{[l]} * g'(Z^{[l]}) \tag{11}$$。
 
-**Exercise**: Implement the backpropagation for the *LINEAR->ACTIVATION* layer. 
+**Exercise**: 完成 *LINEAR->ACTIVATION* 部分的反向传播算法。 
 
 
 	# GRADED FUNCTION: linear_activation_backward
@@ -241,7 +243,7 @@ If $g(.)$ is the activation function,
 </table>
 
 
-### 6.3 - L-Model Backward 
+### 6.3 - L层模型 反向传播
 
 Now you will implement the backward function for the whole network. Recall that when you implemented the `L_model_forward` function, at each iteration, you stored a cache which contains (X,W,b, and z). In the back propagation module, you will use those variables to compute the gradients. Therefore, in the `L_model_backward` function, you will iterate through all the hidden layers backward, starting from layer $L$. On each step, you will use the cached values for layer $l$ to backpropagate through layer $l$. Figure 5 below shows the backward pass. 
 
