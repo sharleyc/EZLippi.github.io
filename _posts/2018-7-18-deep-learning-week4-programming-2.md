@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      深层神经网络编程作业(二)  
+title:      深度神经网络编程作业(二)  
 keywords:   博客
 categories: [机器学习]
 tags:	    [深度学习，深层神经网络]
@@ -11,7 +11,7 @@ tags:	    [深度学习，深层神经网络]
 
 ## 6 - 反向传播模块 
 
-同前向传播类似，你需要实现一些有用的函数。请记住反向传播是用来计算损失函数关于某些参数的梯度。
+同前向传播类似，你需要实现一些辅助函数。请记住反向传播是用来计算损失函数关于某些参数的梯度。
 
 **Reminder**:      
 
@@ -125,7 +125,7 @@ $$ dA^{[l-1]} = \frac{\partial \mathcal{L} }{\partial A^{[l-1]}} = W^{[l] T} dZ^
 
 ### 6.2 - 线性激活函数反向传播
 
-接下来是完成**`linear_activation_backward`**函数的编写，这个函数合并了两个有用的函数：**`linear_backward`**，以及激励单元的反向传播。
+接下来是完成**`linear_activation_backward`**函数的编写，这个函数合并了两个辅助函数：**`linear_backward`**，以及激励单元的反向传播。
 
 我们提供了两个反向传播函数，来帮助你完成`linear_activation_backward`。    
 

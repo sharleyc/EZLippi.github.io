@@ -1,6 +1,6 @@
 ---
 layout:     post  
-title:      深层神经网络编程作业(一)  
+title:      深度神经网络编程作业(一)  
 keywords:   博客   
 categories: [机器学习]   
 tags:	    [深度学习，深层神经网络]  
@@ -37,7 +37,7 @@ Let's first import all the packages that you will need during this assignment.
 
 ## 2 - 作业大纲
 
-你需要先完成一些有用函数的编码（会提供详细的说明），这些函数会帮助你完成构建深度神经网络。以下是作业大纲：
+你需要先完成一些辅助函数的编码（会提供详细的说明），这些函数会帮助你完成构建深度神经网络。以下是作业大纲：
 
 - 参数初始化。
 - 完成前向传播模块（下图的紫色部分）。
@@ -62,7 +62,7 @@ Let's first import all the packages that you will need during this assignment.
 
 ## 3 - 初始化
 
-你需要编写两个有用的函数来初始化模型的参数。一个用来初始化2层模型的参数，一个用来初始化**L**层模型的参数。
+你需要编写两个辅助函数来初始化模型的参数。一个用来初始化2层模型的参数，一个用来初始化**L**层模型的参数。
 
 ### 3.1 - 2层神经网络
 
