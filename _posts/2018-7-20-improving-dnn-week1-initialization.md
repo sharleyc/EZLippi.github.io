@@ -16,7 +16,7 @@ tags:	    [深度神经网络，超参数调优]
  - 了解可以帮助优化你的模型的不同正则化方法
  - 实施随机失活(dropout)，并看到它是如何作用于数据的
  - 认识到没有正则化的模型虽然可能帮助你在训练集上获得更好的准确性，但不一定在测试集上能获得更好的准确性
- - 了解你可以在模型上同事使用随机失活和正则化   
+ - 了解你可以在模型上同时使用随机失活和正则化   
 
 
 # 初始化
@@ -52,13 +52,13 @@ tags:	    [深度神经网络，超参数调优]
 
 你需要设计一个分类器将图中的红点和蓝点区分开来。  
 
-## 1 - Neural Network model
+## 1 - 神经网络模型
 
 你将在一个3层神经网络模型（已实现）上实验三种不同的权重初始化方法：  
 
 - 零初始化(*Zeros initialization*) --将参数初始化为零 `initialization = "zeros"` 。
 - 随机初始化(*Random initialization*) -- 对参数进行随机初始化  `initialization = "random"` 。权重w初始化的值较大。  
-- *He initialization* -- 在一定范围内随机初始化权重w的值  `initialization = "he"` 。 主要用在使用Relu作为激活函数的神经网络中。   
+- He初始化(*He initialization*) -- 在一定范围内随机初始化权重w的值  `initialization = "he"` 。 主要用在使用Relu作为激活函数的神经网络中。   
 
 **Instructions**: 阅读并执行下面代码。接下来的部分你将在`model()`中完成三种初始化方法。 
 
@@ -225,7 +225,7 @@ tags:	    [深度神经网络，超参数调优]
 通常，将所有权重参数初始化为零会导致对称失效，这意味着每层中的每个神经元都学到同样的东西，其网络不比线性分类器（比如逻辑回归）强大。
 
 <font color='blue'>
-**What you should remember**:  
+**划重点**： 
  
  - 权重参数 $W^{[l]}$ 需要进行随机初始化，以避免产生对称失效。   
  - 可以对偏差参数 $b^{[l]}$进行零初始化。只要 $W^{[l]}$是随机初始化的，就能打破对称。  
@@ -343,14 +343,15 @@ tags:	    [深度神经网络，超参数调优]
    ![](/images/images_2018/7-20_04.png)    
 
 
-**Observations**:
+**Observations**:    
 
-- 代价函数在迭代开始非常高。这是因为权重参数的随机值过大，the last activation (sigmoid) outputs results that are very close to 0 or 1 for some examples, and when it gets that example wrong it incurs a very high loss for that example. Indeed, when $\log(a^{[3]}) = \log(0)$, the loss goes to infinity.
+- 代价函数在迭代开始非常高。这是因为权重参数的随机值过大，会导致一些样本最后的激励函数输出结果非常接近0或1，如果这些样本的预测值是0，那么损失非常大。实际上, 当 $\log(a^{[3]}) = \log(0)$, 损失是无穷大的。
 - 初始化做得不好，会导致梯度消失/梯度爆炸问题，从而导致降低优化的速度。
 - 训练越久效果越好，但是随机初始化值过大会降低优化的速度。
 
 <font color='blue'>
-**总结**:
+
+**总结**：            
 
  - 权重参数的随机初始化值过大，会导致性能结果不佳。 
  - 希望使用较小的随机值会更好。关键问题是：随机值多小合适？
@@ -521,10 +522,11 @@ tags:	    [深度神经网络，超参数调优]
 </table> 
 
 
-<font color='blue'>
-**What you should remember from this notebook**: 
+<font color='blue'> 
 
-- 不同的初始化方法导致不同的结果
-- 随机初始化可以打破对称，确保不同的隐藏单元可以学习到不同的东西
-- 权重参数的初始化值不宜过大
-- He初始化方法在使用ReLU激励函数的网络中非常有效 
+**划重点**： 
+
+ - 不同的初始化方法导致不同的结果
+ - 随机初始化可以打破对称，确保不同的隐藏单元可以学习到不同的东西
+ - 权重参数的初始化值不宜过大
+ - He初始化方法在使用ReLU激励函数的网络中非常有效 
