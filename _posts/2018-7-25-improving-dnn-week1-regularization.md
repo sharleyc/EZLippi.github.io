@@ -423,14 +423,18 @@ A3 = [[ 0.36974721  0.00305176  0.04565099  0.49683389  0.36974721]]
 
 ### 3.2 - 使用dropout的反向传播
 
-**Exercise**: Implement the backward propagation with dropout. As before, you are training a 3 layer network. Add dropout to the first and second hidden layers, using the masks $D^{[1]}$ and $D^{[2]}$ stored in the cache. 
+**练习**： 使用dropout实现反向传播。和之前一样，你正在训练一个三层的网络，使用存储在缓存中的掩码 $D^{[1]}$ 和 $D^{[2]}$ 将dropout添加到第一个和第二个隐藏层。  
 
-**Instruction**:
-Backpropagation with dropout is actually quite easy. You will have to carry out 2 Steps:
-1. You had previously shut down some neurons during forward propagation, by applying a mask $D^{[1]}$ to `A1`. In backpropagation, you will have to shut down the same neurons, by reapplying the same mask $D^{[1]}$ to `dA1`. 
-2. During forward propagation, you had divided `A1` by `keep_prob`. In backpropagation, you'll therefore have to divide `dA1` by `keep_prob` again (the calculus interpretation is that if $A^{[1]}$ is scaled by `keep_prob`, then its derivative $dA^{[1]}$ is also scaled by the same `keep_prob`).
+**指引**：
 
-	# GRADED FUNCTION: backward_propagation_with_dropout
+在反向传播里实现dropout实际上非常容易。你需要执行以下两个步骤：
+
+1. 通过将掩码 $D^{[1]}$ 应用于 `A1`，你之前在前向传播过程中关闭了一些神经元。在反向传播中，你必须将相同的掩码重新应用于 `dA1`来关闭相同的神经元。 
+2. 在前向传播期间，你将 `A1` 除以 `keep_prob`。在反向传播中，你必须再次将 `dA1` 除以 `keep_prob` (微积分的解释是如果 $A^{[1]}$ 由 `keep_prob`缩放，那么它的导数 $dA^{[1]}$ 也被相同的 `keep_prob`缩放)。
+
+-------------------------------------
+
+     # GRADED FUNCTION: backward_propagation_with_dropout
 	
 	def backward_propagation_with_dropout(X, Y, cache, keep_prob):
 	    """
@@ -527,10 +531,10 @@ Dropout的效果很好，测试集的准确度再次提高（达到95%）！你�
 
    ![](/images/images_2018/7-25_07.png)  
 
-**Note**:
-- A **common mistake** when using dropout is to use it both in training and testing. You should use dropout (randomly eliminate nodes) only in training. 
-- Deep learning frameworks like [tensorflow](https://www.tensorflow.org/api_docs/python/tf/nn/dropout), [PaddlePaddle](http://doc.paddlepaddle.org/release_doc/0.9.0/doc/ui/api/trainer_config_helpers/attrs.html), [keras](https://keras.io/layers/core/#dropout) or [caffe](http://caffe.berkeleyvision.org/tutorial/layers/dropout.html) come with a dropout layer implementation. Don't stress - you will soon learn some of these frameworks.
+**注意**：
 
+- 使用dropout的 **常见错误** 是在训练和测试中使用它。你应该仅在训练中使用dropout。 
+- 深度学习框架，如 [tensorflow](https://www.tensorflow.org/api_docs/python/tf/nn/dropout), [PaddlePaddle](http://doc.paddlepaddle.org/release_doc/0.9.0/doc/ui/api/trainer_config_helpers/attrs.html), [keras](https://keras.io/layers/core/#dropout) or [caffe](http://caffe.berkeleyvision.org/tutorial/layers/dropout.html) 都有dropout的实现。你很快就会学到一些这样的框架。
 
 **<font color='blue'>划重点：</font>**
 
