@@ -887,7 +887,7 @@ _ , c = sess.run([optimizer, cost], feed_dict={X: minibatch_X, Y: minibatch_Y})
 
 恭喜你完成了这项任务。你现在可以拍摄手的图片并查看模型的输出。要做到这点，需要：
 
-   1. Click on "File" in the upper bar of this notebook, then click "Open" to go on your Coursera Hub.
+   1. 在notebook工具栏点击 "File" - "Open" 
    2. 在Jupyter Notebook的"images" 目录下添加你的图片
    3. 在以下代码中写下你的图片名称
    4. 运行代码并检查算法是否正确
