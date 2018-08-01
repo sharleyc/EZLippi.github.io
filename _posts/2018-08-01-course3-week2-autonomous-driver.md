@@ -96,7 +96,9 @@ You also know that human-level error on the road sign and traffic signals classi
 - You have a large variance problem because your model is not generalizing well to data from the same training distribution but that it has never seen before.
 - Your algorithm overfits the dev set because the error of the dev and test sets are very close.
 
+
 正确答案： 第1、2个选项。人类水平误差是0.5%，训练集误差是8.8%，训练集-开发集误差是9.1%，开发集误差14.3%，测试集误差14.8%。因为训练集误差远大于人类水平误差，因此肯定是有很大的avoidable-bias error；而训练集误差和训练集-开发集误差是比较接近的，说明并没有很大的variance error；而训练集误差和开发集误差比较大，说明有比较大的data-mismatch problem。因此应该选择第1、2个选项。
+
 ------------------------------------------
 
 ## 第7题
