@@ -69,9 +69,11 @@ You have an input volume that is 15x15x8, and pad it using “pad=2.” What is 
 - 17x17x10
 - 19x19x8
 - 17x17x8
-- 19x19x12
+- 19x19x12     
+
 
 正确答案： 第2个选项。填充后宽高都增加2P，通道数量不受影响。
+
 ----------------------------------------------
 
 ## 第6题
@@ -136,5 +138,6 @@ In lecture we talked about “sparsity of connections” as a benefit of using c
 - Regularization causes gradient descent to set many of the parameters to zero.
 
 正确答案：第1项。
+
 ----------------------------------------
 
