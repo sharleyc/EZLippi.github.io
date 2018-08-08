@@ -31,7 +31,9 @@ tags:	    [python2，python3,windows]
 
 重新安装两个版本的pip，使得两个python版本的pip能够共存 
 
-* 运行命令：python3 -m pip install --upgrade pip --force-reinstall，显示重新安装成功。   
+* 运行命令：python3 -m pip install \-\-upgrade pip \-\-force-reinstall，显示重新安装成功。        
+注意：如果是公司网络，需要配置代理，参考KM文章http://km.oa.com/articles/show/356656    
+ 
 
   ![](/images/images_2018/6-25_1.png)         
 
