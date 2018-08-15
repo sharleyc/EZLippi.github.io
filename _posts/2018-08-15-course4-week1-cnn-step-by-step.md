@@ -310,15 +310,10 @@ The pooling (POOL) layer reduces the height and width of the input. It helps red
 
 - Average-pooling layer: slides an ($f, f$) window over the input and stores the average value of the window in the output.
 
-<table>
-<td>
-<img src="/images/images_2018/max_pool1.png" style="width:500px;height:300px;">
-<td>
 
-<td>
-<img src="/images/images_2018/a_pool.png" style="width:500px;height:300px;">
-<td>
-</table>
+   ![](/images/images_2018/max_pool1.png) 
+   ![](/images/images_2018/a_pool.png) 
+
 
 These pooling layers have no parameters for backpropagation to train. However, they have hyperparameters such as the window size $f$. This specifies the height and width of the fxf window you would compute a max or average over. 
 
