@@ -234,7 +234,7 @@ You've implemented the ResNet identity block. Next, the ResNet "convolutional bl
    ![](/images/images_2018/convblock_kiank.png)
 
 
-<center> <u> **Figure 4** : **Convolutional block. ** </center>
+<center>  **Figure 4** : **Convolutional block. ** </center>
 
 
 The CONV2D layer in the shortcut path is used to resize the input $x$ to a different dimension, so that the dimensions match up in the final addition needed to add the shortcut value back to the main path. (This plays a similar role as the matrix $W_s$ discussed in lecture.) For example, to reduce the activation dimensions's height and width by a factor of 2, you can use a 1x1 convolution with a stride of 2. The CONV2D layer on the shortcut path does not use any non-linear activation function. Its main role is to just apply a (learned) linear function that reduces the dimension of the input, so that the dimensions match up for the later addition step. 
