@@ -583,12 +583,20 @@ Congratulations on finishing this assignment! You've now implemented a state-of-
 
 
 
-<font color='blue'>
-**What you should remember:**
+
+**<font color='blue'>What you should remember:</font>**
 
 - Very deep "plain" networks don't work in practice because they are hard to train due to vanishing gradients.  
 - The skip-connections help to address the Vanishing Gradient problem. They also make it easy for a ResNet block to learn an identity function. 
 - There are two main type of blocks: The identity block and the convolutional block. 
 - Very deep Residual Networks are built by stacking these blocks together.
+
+
+### References 
+
+This notebook presents the ResNet algorithm due to He et al. (2015). The implementation here also took significant inspiration and follows the structure given in the github repository of Francois Chollet: 
+
+- Kaiming He, Xiangyu Zhang, Shaoqing Ren, Jian Sun - [Deep Residual Learning for Image Recognition (2015)](https://arxiv.org/abs/1512.03385)
+- Francois Chollet's github repository: https://github.com/fchollet/deep-learning-models/blob/master/resnet50.py
 
 
