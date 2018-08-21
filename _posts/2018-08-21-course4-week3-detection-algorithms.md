@@ -42,37 +42,46 @@ Continuing from the previous problem, what should y be for the image below? Reme
 
 ## 第3题  
 
-In order to be able to build very deep networks, we usually only use pooling layers to downsize the height/width of the activation volumes while convolutions are used with “valid” padding. Otherwise, we would downsize the input of the model too quickly.
+You are working on a factory automation task. Your system will see a can of soft-drink coming down a conveyor belt, and you want it to take a picture and decide whether (i) there is a soft-drink can in the image, and if so (ii) its bounding box. Since the soft-drink can is round, the bounding box is always square, and the soft drink can always appears as the same size in the image. There is at most one soft drink can in each image. Here’re some typical images in your training set:
+
+   ![](/images/images_2018/8-21_03.png)
+
+What is the most appropriate set of output units for your neural network?
 
 
-- True
-- False
+- Logistic unit (for classifying if there is a soft-drink can in the image)	
+- Logistic unit,  b<sub>x</sub> and b<sub>y</sub>
+- Logistic unit,  b<sub>x</sub> , b<sub>y</sub>, b<sub>h</sub>(since b<sub>h</sub> = b<sub>w</sub>)
+- Logistic unit,  b<sub>x</sub> , b<sub>y</sub>, b<sub>h</sub>, b<sub>w</sub>
 
-正确答案：False。如果希望模型不会快速变小，应该使用"same" padding替代"valid" padding。
+正确答案：第2项。目标物件的大小和形状是确定的，即b<sub>h</sub>, b<sub>w</sub>是已知的，不需要作为神经网络的输出单元。有无目标物件，以及物件的位置是未知的，因此选第2项。
 
 ---------------------------------------
 
 ## 第4题 
 
-Training a deeper network (for example, adding additional layers to the network) allows the network to fit more complex functions and thus almost always results in lower training error. For this question, assume we’re referring to “plain” networks.
+If you build a neural network that inputs a picture of a person’s face and outputs N landmarks on the face (assume the input image always contains exactly one face), how many output units will the network have?
 
-- True
-- False
+- N
+- 2N
+- 3N
+- N<sup>2</sup>
 
 
-正确答案： False。"plain"网络可以理解为正常的神经网络（非残差网络），理论上层数越多，训练误差会越小；实际上层数越多，意味着用优化算法训练越难，因此训练误差也会有所增加。
+正确答案： 第2项。1个 "landmark" 需要b<sub>x</sub> , b<sub>y</sub>两个输出单元，因此N个 "landmark" 需要2N 个输出单元。
 
 ---------------------------------------
 
 ## 第5题
 
-The following equation captures the computation in a ResNet block. What goes into the two blanks above?
+When training one of the object detection systems described in lecture, you need a training set that contains many pictures of the object(s) you wish to detect. However, bounding boxes do not need to be provided in the training set, since the algorithm can learn to detect the objects by itself.
 
 
-   ![](/images/images_2018/8-20_01.png)   
+- True
+- False
 
 
-正确答案： 第4个选项。
+正确答案： False。训练集的边界框(bounding boxes)需要提供来评估检测算法的误差。
 
 ----------------------------------------------
 
