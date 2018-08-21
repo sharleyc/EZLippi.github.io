@@ -1,9 +1,9 @@
 ---
 layout:     post
-title:      深度卷积神经网络模型（测试题）
+title:      目标检测（测试题）
 keywords:   博客
 categories: [机器学习]
-tags:	    [卷积神经网络，ConvNets]
+tags:	    [卷积神经网络，detection]
 ---
 
 
