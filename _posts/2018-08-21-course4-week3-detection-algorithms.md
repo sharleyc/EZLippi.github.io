@@ -87,68 +87,71 @@ When training one of the object detection systems described in lecture, you need
 
 ## 第6题
 
-Which ones of the following statements on Residual Networks are true? (Check all that apply.)
+Suppose you are applying a sliding windows classifier (non-convolutional implementation). Increasing the stride would tend to increase accuracy, but decrease computational cost.
 
-- A ResNet with L layers would have on the order of L2 skip connections in total.
-- The skip-connections compute a complex non-linear function of the input to pass to a deeper layer in the network.
-- Using a skip-connection helps the gradient to backpropagate and thus helps you to train deeper networks.
-- The skip-connection makes it easy for the network to learn an identity mapping between the input and the output within the ResNet block.
+- True
+- False
 
 
-正确答案： 第3、4个选项。这道题比较有迷惑性。
+正确答案：False。滑动窗口增大，会导致准确度下降，运算成本下降。
 
 ------------------------------------------
 
 ## 第7题
 
-Suppose you have an input volume of dimension 64x64x16. How many parameters would a single 1x1 convolutional filter have (including the bias)?
+In the YOLO algorithm, at training time, only one cell ---the one containing the center/midpoint of an object--- is responsible for detecting this object.
 
-- 1
-- 2
-- 4097
-- 17
+- True
+- False
 
-正确答案：第4个选项。16+1 = 17。
+正确答案：True。
 
 ----------------------------------------
 
 ## 第8题
 
-Suppose you have an input volume of dimension n_H * n_W * n_C. Which of the following statements you agree with? (Assume that “1x1 convolutional layer” below always uses a stride of 1 and no padding.)
-
-- You can use a pooling layer to reduce n_H, n_W and n_C. 
-- You can use a pooling layer to reduce n_H, n_W, but not n_C.
-- You can use a 1x1 convolutional layer to reduce n_H, n_W and n_C.
-- You can use a 1x1 convolutional layer to reduce n_C, but not n_H, n_W.
+What is the IoU between these two boxes? The upper-left box is 2x2, and the lower-right box is 2x3. The overlapping region is 1x1.
 
 
-正确答案：第2、4个选项。池化层往往跟在卷积层后面，通过平均池化或者最大池化的方法，将之前卷积层得到的特征图做一个聚合统计。假设输入层是112*112*3,池化窗口大小为2*2，池化后输出56*56*3。因此池化层可以有效缩小矩阵的尺寸，既可以加快计算速度，也可以防止过拟合。1x1 卷积也称为网络中的网络，如果输入矩阵的channels 较多，可以采用1x1 卷积对其channels进行压缩，而不会改变输入矩阵的高和宽。
+   ![](/images/images_2018/8-21_04.png)
+
+
+- 1/6 
+- 1/9
+- 1/10
+- None of the above
+
+
+正确答案：第2项。这题可能选错到第3项。明确IoU的定义：交集区域/合并集区域，交集区域的大小是1，合并集区域的大小是4+6-1=9，因此IoU的大小是1/9。
 
 -----------------------------
 
 ## 第9题
 
-Which ones of the following statements on Inception Networks are true? (Check all that apply.)
+Suppose you run non-max suppression on the predicted boxes above. The parameters you use for non-max suppression are that boxes with probability \leq≤ 0.4 are discarded, and the IoU threshold for deciding if two boxes overlap is 0.5. How many boxes will remain after non-max suppression?
 
-- A single inception block allows the network to use a combination of 1x1, 3x3, 5x5 convolutions and pooling.
-- Inception networks incorporates a variety of network architectures (similar to dropout, which randomly chooses a network architecture on each step) and thus has a similar regularizing effect as dropout.
-- Making an inception network deeper (by stacking more inception blocks together) should not hurt training set performance.
-- Inception blocks usually use 1x1 convolutions to reduce the input data volume’s size before applying 3x3 and 5x5 convolutions.
+   ![](/images/images_2018/8-21_05.png)
 
-正确答案：第1、3项。
+- 3
+- 4
+- 5
+- 6
+- 7
+
+正确答案：第3项。根据<=0.4的boxes会被舍弃的规则，car 0.26的box被舍弃；根据IoU>=0.5的会只保留最高阈值的box的原则，car 0.62的box被舍弃。因此最后剩下5个boxes。
 
 --------------------------------------
 
 ## 第10题
 
-Which of the following are common reasons for using open-source implementations of ConvNets (both the model and/or weights)? Check all that apply.
+Suppose you are using YOLO on a 19x19 grid, on a detection problem with 20 classes, and with 5 anchor boxes. During training, for each image you will need to construct an output volume yy as the target value for the neural network; this corresponds to the last layer of the neural network. (yy may include some “?”, or “don’t cares”). What is the dimension of this output volume?
 
-- The same techniques for winning computer vision competitions, such as using multiple crops at test time, are widely used in practical deployments (or production system deployments) of ConvNets.
-- Parameters trained for one computer vision task are often useful as pretraining for other computer vision tasks.
-- A model trained for one computer vision task can usually be used to perform data augmentation even for a different computer vision task.
-- It is a convenient way to get working an implementation of a complex ConvNet architecture.
+- 19x19x(25x20)
+- 19x19x(5x20)
+- 19x19x(5x25)
+- 19x19x(20x25)
 
-正确答案：第2、4个选项。
+正确答案：第3项。每个anchor box需要19x19x25(1+4+20) 个输出单元来定位，5个anchor boxes则为 19x19x(5x25)。
 
 
 
