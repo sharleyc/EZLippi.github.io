@@ -305,7 +305,181 @@ In this code, we use the convention that (0,0) is the top-left corner of an imag
 iou = 0.142857142857
 
 
+You are now ready to implement non-max suppression. The key steps are: 
+
+1. Select the box that has the highest score.
+2. Compute its overlap with all other boxes, and remove boxes that overlap it more than `iou_threshold`.
+3. Go back to step 1 and iterate until there's no more boxes with a lower score than the current selected box.
+
+This will remove all boxes that have a large overlap with the selected boxes. Only the "best" boxes remain.
+
+这里需要理解non-max suppression（简称为NMS）算法的实现步骤：首先从所有的检测框中找到置信度最大的那个框，然后逐一计算它和剩余框的IoU，如果其值大于一定阈值（重合度过高），那么就将该框剔除；然后对剩余的检测框重复上述过程，直到处理完所有的检测框。 这个过程可以解决物体被多次检测的问题，从而仅仅输出其中一个较好的检测结果。
+
+
 **Exercise**: Implement yolo_non_max_suppression() using TensorFlow. TensorFlow has two built-in functions that are used to implement non-max suppression (so you don't actually need to use your `iou()` implementation):
 
 - [tf.image.non_max_suppression()](https://www.tensorflow.org/api_docs/python/tf/image/non_max_suppression)
 - [K.gather()](https://www.tensorflow.org/api_docs/python/tf/gather)
+
+-----------------------------------
+
+
+	# GRADED FUNCTION: yolo_non_max_suppression
+	
+	def yolo_non_max_suppression(scores, boxes, classes, max_boxes = 10, iou_threshold = 0.5):
+	    """
+	    Applies Non-max suppression (NMS) to set of boxes
+	    
+	    Arguments:
+	    scores -- tensor of shape (None,), output of yolo_filter_boxes()
+	    boxes -- tensor of shape (None, 4), output of yolo_filter_boxes() that have been scaled to the image size (see later)
+	    classes -- tensor of shape (None,), output of yolo_filter_boxes()
+	    max_boxes -- integer, maximum number of predicted boxes you'd like
+	    iou_threshold -- real value, "intersection over union" threshold used for NMS filtering
+	    
+	    Returns:
+	    scores -- tensor of shape (, None), predicted score for each box
+	    boxes -- tensor of shape (4, None), predicted box coordinates
+	    classes -- tensor of shape (, None), predicted class for each box
+	    
+	    Note: The "None" dimension of the output tensors has obviously to be less than max_boxes. Note also that this
+	    function will transpose the shapes of scores, boxes, classes. This is made for convenience.
+	    """
+	    
+	    max_boxes_tensor = K.variable(max_boxes, dtype='int32')     # tensor to be used in tf.image.non_max_suppression()
+	    K.get_session().run(tf.variables_initializer([max_boxes_tensor])) # initialize variable max_boxes_tensor
+	    
+	    # Use tf.image.non_max_suppression() to get the list of indices corresponding to boxes you keep
+	    ### START CODE HERE ### (≈ 1 line)
+	    nms_indices = tf.image.non_max_suppression(boxes,scores,max_boxes,iou_threshold) 
+	    ### END CODE HERE ###
+	    
+	    # Use K.gather() to select only nms_indices from scores, boxes and classes
+	    ### START CODE HERE ### (≈ 3 lines)
+	    scores = K.gather(scores, nms_indices)
+	    boxes = K.gather(boxes, nms_indices)
+	    classes = K.gather(classes, nms_indices)
+	    ### END CODE HERE ###
+	    
+	    return scores, boxes, classes
+
+    #test code
+	with tf.Session() as test_b:
+	    scores = tf.random_normal([54,], mean=1, stddev=4, seed = 1)
+	    boxes = tf.random_normal([54, 4], mean=1, stddev=4, seed = 1)
+	    classes = tf.random_normal([54,], mean=1, stddev=4, seed = 1)
+	    scores, boxes, classes = yolo_non_max_suppression(scores, boxes, classes)
+	    print("scores[2] = " + str(scores[2].eval()))
+	    print("boxes[2] = " + str(boxes[2].eval()))
+	    print("classes[2] = " + str(classes[2].eval()))
+	    print("scores.shape = " + str(scores.eval().shape))
+	    print("boxes.shape = " + str(boxes.eval().shape))
+	    print("classes.shape = " + str(classes.eval().shape))
+
+执行结果
+
+scores[2] = 6.9384    
+boxes[2] = [-5.299932    3.13798141  4.45036697  0.95942086]    
+classes[2] = -2.24527    
+scores.shape = (10,)    
+boxes.shape = (10, 4)    
+classes.shape = (10,)   
+
+
+### 2.4 Wrapping up the filtering
+
+It's time to implement a function taking the output of the deep CNN (the 19x19x5x85 dimensional encoding) and filtering through all the boxes using the functions you've just implemented. 
+
+**Exercise**: Implement `yolo_eval()` which takes the output of the YOLO encoding and filters the boxes using score threshold and NMS. There's just one last implementational detail you have to know. There're a few ways of representing boxes, such as via their corners or via their midpoint and height/width. YOLO converts between a few such formats at different times, using the following functions (which we have provided): 
+
+```
+boxes = yolo_boxes_to_corners(box_xy, box_wh) 
+```
+which converts the yolo box coordinates (x,y,w,h) to box corners' coordinates (x1, y1, x2, y2) to fit the input of `yolo_filter_boxes`
+```
+boxes = scale_boxes(boxes, image_shape)
+```
+YOLO's network was trained to run on 608x608 images. If you are testing this data on a different size image--for example, the car detection dataset had 720x1280 images--this step rescales the boxes so that they can be plotted on top of the original 720x1280 image.  
+
+Don't worry about these two functions; we'll show you where they need to be called.  
+ 
+	# GRADED FUNCTION: yolo_eval
+	
+	def yolo_eval(yolo_outputs, image_shape = (720., 1280.), max_boxes=10, score_threshold=.6, iou_threshold=.5):
+	    """
+	    Converts the output of YOLO encoding (a lot of boxes) to your predicted boxes along with their scores, box coordinates and classes.
+	    
+	    Arguments:
+	    yolo_outputs -- output of the encoding model (for image_shape of (608, 608, 3)), contains 4 tensors:
+	                    box_confidence: tensor of shape (None, 19, 19, 5, 1)
+	                    box_xy: tensor of shape (None, 19, 19, 5, 2)
+	                    box_wh: tensor of shape (None, 19, 19, 5, 2)
+	                    box_class_probs: tensor of shape (None, 19, 19, 5, 80)
+	    image_shape -- tensor of shape (2,) containing the input shape, in this notebook we use (608., 608.) (has to be float32 dtype)
+	    max_boxes -- integer, maximum number of predicted boxes you'd like
+	    score_threshold -- real value, if [ highest class probability score < threshold], then get rid of the corresponding box
+	    iou_threshold -- real value, "intersection over union" threshold used for NMS filtering
+	    
+	    Returns:
+	    scores -- tensor of shape (None, ), predicted score for each box
+	    boxes -- tensor of shape (None, 4), predicted box coordinates
+	    classes -- tensor of shape (None,), predicted class for each box
+	    """
+	    
+	    ### START CODE HERE ### 
+	    
+	    # Retrieve outputs of the YOLO model (≈1 line)
+	    box_confidence, box_xy, box_wh, box_class_probs = yolo_outputs
+	
+	    # Convert boxes to be ready for filtering functions 
+	    boxes = yolo_boxes_to_corners(box_xy, box_wh)
+	
+	    # Use one of the functions you've implemented to perform Score-filtering with a threshold of score_threshold (≈1 line)
+	    scores, boxes, classes = yolo_filter_boxes(box_confidence, boxes, box_class_probs, score_threshold)
+	    
+	    # Scale boxes back to original image shape.
+	    boxes = scale_boxes(boxes, image_shape)
+	
+	    # Use one of the functions you've implemented to perform Non-max suppression with a threshold of iou_threshold (≈1 line)
+	    scores, boxes, classes = yolo_non_max_suppression(scores, boxes, classes, max_boxes, iou_threshold)
+	    
+	    ### END CODE HERE ###
+	    
+	    return scores, boxes, classes
+
+    #test code
+	with tf.Session() as test_b:
+	    yolo_outputs = (tf.random_normal([19, 19, 5, 1], mean=1, stddev=4, seed = 1),
+	                    tf.random_normal([19, 19, 5, 2], mean=1, stddev=4, seed = 1),
+	                    tf.random_normal([19, 19, 5, 2], mean=1, stddev=4, seed = 1),
+	                    tf.random_normal([19, 19, 5, 80], mean=1, stddev=4, seed = 1))
+	    scores, boxes, classes = yolo_eval(yolo_outputs)
+	    print("scores[2] = " + str(scores[2].eval()))
+	    print("boxes[2] = " + str(boxes[2].eval()))
+	    print("classes[2] = " + str(classes[2].eval()))
+	    print("scores.shape = " + str(scores.eval().shape))
+	    print("boxes.shape = " + str(boxes.eval().shape))
+	    print("classes.shape = " + str(classes.eval().shape))
+
+执行结果：
+
+scores[2] = 138.791    
+boxes[2] = [ 1292.32971191  -278.52166748  3876.98925781  -835.56494141]     
+classes[2] = 54    
+scores.shape = (10,)    
+boxes.shape = (10, 4)    
+classes.shape = (10,)    
+
+
+**Summary for YOLO**:
+
+- Input image (608, 608, 3)
+- The input image goes through a CNN, resulting in a (19,19,5,85) dimensional output. 
+- After flattening the last two dimensions, the output is a volume of shape (19, 19, 425):
+    - Each cell in a 19x19 grid over the input image gives 425 numbers. 
+    - 425 = 5 x 85 because each cell contains predictions for 5 boxes, corresponding to 5 anchor boxes, as seen in lecture. 
+    - 85 = 5 + 80 where 5 is because $(p_c, b_x, b_y, b_h, b_w)$ has 5 numbers, and and 80 is the number of classes we'd like to detect
+- You then select only few boxes based on:
+    - Score-thresholding: throw away boxes that have detected a class with a score less than the threshold
+    - Non-max suppression: Compute the Intersection over Union and avoid selecting overlapping boxes
+- This gives you YOLO's final output. 
