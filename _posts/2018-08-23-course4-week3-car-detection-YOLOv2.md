@@ -78,3 +78,46 @@ Lets look in greater detail at what this encoding represents.
    ![](/images/images_2018/architecture.png)
 
 
+<center>  **Figure 2** : **Encoding architecture for YOLO** </center>
+
+If the center/midpoint of an object falls into a grid cell, that grid cell is responsible for detecting that object.
+
+Since we are using 5 anchor boxes, each of the 19 x19 cells thus encodes information about 5 boxes. Anchor boxes are defined only by their width and height.
+
+For simplicity, we will flatten the last two last dimensions of the shape (19, 19, 5, 85) encoding. So the output of the Deep CNN is (19, 19, 425).
+
+   ![](/images/images_2018/flatten.png)
+
+<center>  **Figure 3** : **Flattening the last two last dimensions** </center>
+
+Now, for each box (of each cell) we will compute the following elementwise product and extract a probability that the box contains a certain class.
+
+   ![](/images/images_2018/probability_extraction.png)
+
+<center>  **Figure 4** : **Find the class detected by each box**</center>
+
+Here's one way to visualize what YOLO is predicting on an image:
+
+- For each of the 19x19 grid cells, find the maximum of the probability scores (taking a max across both the 5 anchor boxes and across different classes). 
+- Color that grid cell according to what object that grid cell considers the most likely.
+
+Doing this results in this picture: 
+
+
+   ![](/images/images_2018/proba_map.png)
+
+<center>  **Figure 5** : Each of the 19x19 grid cells colored according to which class has the largest predicted probability in that cell.</center>
+
+
+Another way to visualize YOLO's output is to plot the bounding boxes that it outputs. Doing that results in a visualization like this: 
+
+   ![](/images/images_2018/anchor_map.png)
+
+<center>  **Figure 6** : Each cell gives you 5 boxes. In total, the model predicts: 19x19x5 = 1805 boxes just by looking once at the image (one forward pass through the network)! Different colors denote different classes. </center>
+
+In the figure above, we plotted only boxes that the model had assigned a high probability to, but this is still too many boxes. You'd like to filter the algorithm's output down to a much smaller number of detected objects. To do so, you'll use non-max suppression. Specifically, you'll carry out these steps: 
+
+- Get rid of boxes with a low score (meaning, the box is not very confident about detecting a class)
+- Select only one box when several boxes overlap with each other and detect the same object.
+
+
