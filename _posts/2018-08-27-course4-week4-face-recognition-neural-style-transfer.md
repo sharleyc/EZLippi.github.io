@@ -133,7 +133,7 @@ You are working with 3D data. You are building a network layer whose input volum
 - 30x30x30x16
 
 
-正确答案：第1个选项。卷积操作的结果，两边的通道数要保持一致。因此选择第1个选项。
+正确答案：第1个选项。三维的高度宽度深度的计算公式和二维的相似，32-3+1 = 30，而卷积操作的结果，两边的通道数要保持一致。因此选择第1个选项。
 
 
 
