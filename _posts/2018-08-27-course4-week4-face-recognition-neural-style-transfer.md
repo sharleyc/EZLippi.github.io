@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      面部识别和神经风格转换（测试题）
+title:      面部识别和神经风格迁移（测试题）
 keywords:   博客
 categories: [机器学习]
 tags:	    [卷积神经网络，面部识别，神经风格转换]
@@ -96,7 +96,7 @@ Neural style transfer is trained as a supervised learning task in which the goal
 - True
 - False
 
-正确答案：False。为了构建一个神经风格转移系统，我们为生成的图像定义一个代价函数，通过最小化这个代价函数能够生成想要的图像。这个代价函数包含两个部分，一个部分是内容代价，它衡量生成图像的内容与内容图像的内容之间的相似程度；另一个部分是风格代价，它衡量生成图像的风格与风格图像的相似程度。
+正确答案：False。为了构建一个神经风格迁移系统，我们为生成的图像定义一个代价函数，通过最小化这个代价函数能够生成想要的图像。这个代价函数包含两个部分，一个部分是内容代价，它衡量生成图像的内容与内容图像的内容之间的相似程度；另一个部分是风格代价，它衡量生成图像的风格与风格图像的相似程度。
 
 ----------------------------------------
 
@@ -120,7 +120,7 @@ In neural style transfer, what is updated in each iteration of the optimization 
 - The pixel values of the generated image G
 - The neural network parameters
 
-正确答案：第3项。在神经风格转移算法中，通过最小化代价函数来生成想要的图像。标准化常数不大重要。
+正确答案：第3项。在神经风格迁移算法中，通过最小化代价函数来生成想要的图像。标准化常数不大重要。
 
 --------------------------------------
 
