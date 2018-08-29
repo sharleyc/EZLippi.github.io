@@ -470,6 +470,226 @@ J = 35.34667875478276
 - 整个成本函数是内容成本函数和风格成本函数的线性组合。
 - &alpha; 和 &beta; 是超参数，用于控制内容和风格之间的相对权重。
 
+## 4 - Solving the optimization problem
+
+Finally, let's put everything together to implement Neural Style Transfer!
+
+
+Here's what the program will have to do:
+<font color='purple'>
+
+1. Create an Interactive Session
+2. Load the content image 
+3. Load the style image
+4. Randomly initialize the image to be generated 
+5. Load the VGG16 model
+7. Build the TensorFlow graph:
+    - Run the content image through the VGG16 model and compute the content cost
+    - Run the style image through the VGG16 model and compute the style cost
+    - Compute the total cost
+    - Define the optimizer and the learning rate
+8. Initialize the TensorFlow graph and run it for a large number of iterations, updating the generated image at every step.
+
+</font>
+Lets go through the individual steps in detail. 
+
+You've previously implemented the overall cost $J(G)$. We'll now set up TensorFlow to optimize this with respect to $G$. To do so, your program has to reset the graph and use an "[Interactive Session](https://www.tensorflow.org/api_docs/python/tf/InteractiveSession)". Unlike a regular session, the "Interactive Session" installs itself as the default session to build a graph.  This allows you to run variables without constantly needing to refer to the session object, which simplifies the code.  
+
+Lets start the interactive session.
+
+	# Reset the graph
+	tf.reset_default_graph()
+	
+	# Start interactive session
+	sess = tf.InteractiveSession()
+
+Let's load, reshape, and normalize our "content" image (the Louvre museum picture):
+
+	content_image = scipy.misc.imread("images/louvre_small.jpg")
+	content_image = reshape_and_normalize_image(content_image)
+
+Let's load, reshape and normalize our "style" image (Claude Monet's painting):
+
+	style_image = scipy.misc.imread("images/monet.jpg")
+	style_image = reshape_and_normalize_image(style_image)
+
+Now, we initialize the "generated" image as a noisy image created from the content_image. By initializing the pixels of the generated image to be mostly noise but still slightly correlated with the content image, this will help the content of the "generated" image more rapidly match the content of the "content" image. (Feel free to look in nst_utils.py to see the details of generate_noise_image(...); to do so, click "File-->Open..." at the upper-left corner of this Jupyter notebook.)
+
+我们将生成图像初始化从content_image创建的嘈杂图像。将生成图像初始化为主要是噪声，但仍与内容图像稍微相关，这将有助于生成图像内容更快速匹配内容图像内容。
+
+	generated_image = generate_noise_image(content_image)
+	imshow(generated_image[0])
+
+   ![](/images/images_2018/noise.png)
+
+Next, as explained in part (2), let's load the VGG16 model.
+
+	model = load_vgg_model("pretrained-model/imagenet-vgg-verydeep-19.mat")
+
+
+
+To get the program to compute the content cost, we will now assign `a_C` and `a_G` to be the appropriate hidden layer activations. We will use layer `conv4_2` to compute the content cost. The code below does the following:
+
+1. Assign the content image to be the input to the VGG model.
+2. Set a_C to be the tensor giving the hidden layer activation for layer "conv4_2".
+3. Set a_G to be the tensor giving the hidden layer activation for the same layer. 
+4. Compute the content cost using a_C and a_G.
+
+--------------------------
+
+	# Assign the content image to be the input of the VGG model.
+    # 设置VGG模型的输入为content_image  
+	sess.run(model['input'].assign(content_image))
+	
+	# Select the output tensor of layer conv4_2
+    # 选择层4-2为输出张量
+	out = model['conv4_2']
+	
+	# Set a_C to be the hidden layer activation from the layer we have selected
+    # 运行激励函数得到a_C
+	a_C = sess.run(out)
+	
+	# Set a_G to be the hidden layer activation from same layer. Here, a_G references model['conv4_2'] 
+	# and isn't evaluated yet. Later in the code, we'll assign the image G as the model input, so that
+	# when we run the session, this will be the activations drawn from the appropriate layer, with G as input.
+	a_G = out
+	
+	# Compute the content cost
+	J_content = compute_content_cost(a_C, a_G)
+
+
+Note: At this point, a_G is a tensor and hasn't been evaluated. It will be evaluated and updated at each iteration when we run the Tensorflow graph in model_nn() below.
+
+	# Assign the input of the model to be the "style" image 
+	sess.run(model['input'].assign(style_image))
+	
+	# Compute the style cost
+	J_style = compute_style_cost(model, STYLE_LAYERS)
+
+**Exercise**: Now that you have J_content and J_style, compute the total cost J by calling `total_cost()`. Use `alpha = 10` and `beta = 40`.
+
+	### START CODE HERE ### (1 line)
+	J = total_cost(J_content, J_style, alpha = 10, beta = 40)
+	### END CODE HERE ###
+
+You'd previously learned how to set up the Adam optimizer in TensorFlow. Lets do that here, using a learning rate of 2.0.  [See reference](https://www.tensorflow.org/api_docs/python/tf/train/AdamOptimizer)
+
+	# define optimizer (1 line)
+	optimizer = tf.train.AdamOptimizer(2.0)
+	
+	# define train_step (1 line)
+	train_step = optimizer.minimize(J)
+
+**Exercise**: Implement the model_nn() function which initializes the variables of the tensorflow graph, assigns the input image (initial generated image) as the input of the VGG16 model and runs the train_step for a large number of steps.
+
+
+	def model_nn(sess, input_image, num_iterations = 200):
+	    
+	    # Initialize global variables (you need to run the session on the initializer)
+	    ### START CODE HERE ### (1 line)
+	    sess.run(tf.global_variables_initializer())
+	    ### END CODE HERE ###
+	    
+	    # Run the noisy input image (initial generated image) through the model. Use assign().
+	    ### START CODE HERE ### (1 line)
+	    sess.run(model['input'].assign(input_image))
+	    ### END CODE HERE ###
+	    
+	    for i in range(num_iterations):
+	    
+	        # Run the session on the train_step to minimize the total cost
+	        ### START CODE HERE ### (1 line)
+	        sess.run(train_step)
+	        ### END CODE HERE ###
+	        
+	        # Compute the generated image by running the session on the current model['input']
+	        ### START CODE HERE ### (1 line)
+	        generated_image = sess.run(model['input'])
+	        ### END CODE HERE ###
+	
+	        # Print every 20 iteration.
+	        if i%20 == 0:
+	            Jt, Jc, Js = sess.run([J, J_content, J_style])
+	            print("Iteration " + str(i) + " :")
+	            print("total cost = " + str(Jt))
+	            print("content cost = " + str(Jc))
+	            print("style cost = " + str(Js))
+	            
+	            # save current generated image in the "/output" directory
+	            save_image("output/" + str(i) + ".png", generated_image)
+	    
+	    # save last generated image
+	    save_image('output/generated_image.jpg', generated_image)
+	    
+    return generated_image
+
+Run the following cell to generate an artistic image. It should take about 3min on CPU for every 20 iterations but you start observing attractive results after ≈140 iterations. Neural Style Transfer is generally trained using GPUs.
+
+    model_nn(sess, generated_image)
+
+执行结果：
+
+Iteration 0 :    
+total cost = 5.05035e+09    
+content cost = 7877.67    
+style cost = 1.26257e+08   
+......   
+Iteration 180 :    
+total cost = 9.73408e+07    
+content cost = 18500.9    
+style cost = 2.4289e+06    
+
+
+You're done! After running this, in the upper bar of the notebook click on "File" and then "Open". Go to the "/output" directory to see all the saved images. Open "generated_image" to see the generated image! :)
+
+You should see something the image presented below on the right:
+
+   ![](/images/images_2018/louvre_generated.png)
+
+We didn't want you to wait too long to see an initial result, and so had set the hyperparameters accordingly. To get the best looking results, running the optimization algorithm longer (and perhaps with a smaller learning rate) might work better. After completing and submitting this assignment, we encourage you to come back and play more with this notebook, and see if you can generate even better looking images. 
+
+
+## 5 - Test with your own image (Optional/Ungraded)
+
+Finally, you can also rerun the algorithm on your own images! 
+
+To do so, go back to part 4 and change the content image and style image with your own pictures. In detail, here's what you should do:
+
+1. Click on "File -> Open" in the upper tab of the notebook
+2. Go to "/images" and upload your images (requirement: (WIDTH = 300, HEIGHT = 225)), rename them "my_content.png" and "my_style.png" for example.
+3. Change the code in part (3.4) from:   
+
+		content_image = scipy.misc.imread("images/louvre.jpg")     
+		style_image = scipy.misc.imread("images/claude-monet.jpg")
+
+     to:
+
+		content_image = scipy.misc.imread("images/my_content.jpg")
+		style_image = scipy.misc.imread("images/my_style.jpg")
+
+4. Rerun the cells (you may need to restart the Kernel in the upper tab of the notebook).
+
+You can also tune your hyperparameters: 
+
+- Which layers are responsible for representing the style? STYLE_LAYERS
+- How many iterations do you want to run the algorithm? num_iterations
+- What is the relative weighting between content and style? alpha/beta
+
+
+## 6 - Conclusion
+
+Great job on completing this assignment! You are now able to use Neural Style Transfer to generate artistic images. This is also your first time building a model in which the optimization algorithm updates the pixel values rather than the neural network's parameters. Deep learning has many different types of models and this is only one of them! 
+
+<font color='blue'>
+What you should remember:
+
+- Neural Style Transfer is an algorithm that given a content image C and a style image S can generate an artistic image
+- It uses representations (hidden layer activations) based on a pretrained ConvNet. 
+- The content cost function is computed using one hidden layer's activations.
+- The style cost function for one layer is computed using the Gram matrix of that layer's activations. The overall style cost function is obtained using several hidden layers.
+- Optimizing the total cost function results in synthesizing new images. 
+
+
 
 
 
