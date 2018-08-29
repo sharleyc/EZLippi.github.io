@@ -476,19 +476,20 @@ Finally, let's put everything together to implement Neural Style Transfer!
 
 
 Here's what the program will have to do:
-<font color='purple'>
+<font color='purple'>        
 
-1. Create an Interactive Session
-2. Load the content image 
-3. Load the style image
-4. Randomly initialize the image to be generated 
-5. Load the VGG16 model
-7. Build the TensorFlow graph:
-    - Run the content image through the VGG16 model and compute the content cost
-    - Run the style image through the VGG16 model and compute the style cost
-    - Compute the total cost
-    - Define the optimizer and the learning rate
-8. Initialize the TensorFlow graph and run it for a large number of iterations, updating the generated image at every step.
+
+1. Create an Interactive Session    
+2. Load the content image       
+3. Load the style image     
+4. Randomly initialize the image to be generated       
+5. Load the VGG16 model      
+7. Build the TensorFlow graph:    
+    - Run the content image through the VGG16 model and compute the content cost     
+    - Run the style image through the VGG16 model and compute the style cost     
+    - Compute the total cost    
+    - Define the optimizer and the learning rate      
+8. Initialize the TensorFlow graph and run it for a large number of iterations, updating the generated image at every step.    
 
 </font>
 Lets go through the individual steps in detail. 
@@ -683,11 +684,11 @@ Great job on completing this assignment! You are now able to use Neural Style Tr
 <font color='blue'>
 What you should remember:
 
-- Neural Style Transfer is an algorithm that given a content image C and a style image S can generate an artistic image
-- It uses representations (hidden layer activations) based on a pretrained ConvNet. 
-- The content cost function is computed using one hidden layer's activations.
-- The style cost function for one layer is computed using the Gram matrix of that layer's activations. The overall style cost function is obtained using several hidden layers.
-- Optimizing the total cost function results in synthesizing new images. 
+- Neural Style Transfer is an algorithm that given a content image C and a style image S can generate an artistic image    
+- It uses representations (hidden layer activations) based on a pretrained ConvNet.       
+- The content cost function is computed using one hidden layer's activations.      
+- The style cost function for one layer is computed using the Gram matrix of that layer's activations. The overall style cost function is obtained using several hidden layers.      
+- Optimizing the total cost function results in synthesizing new images.        
 
 
 
