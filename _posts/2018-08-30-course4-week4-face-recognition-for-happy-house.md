@@ -1,12 +1,12 @@
 ---
 layout:     post
-title:      幸福之家的面部识别（编程题）
+title:      幸福之家的人脸识别（编程题）
 keywords:   博客
 categories: [机器学习]
-tags:	    [卷积神经网络，面部识别]
+tags:	    [卷积神经网络，人脸识别]
 ---
 
-面部识别问题一般分为两类：一类是面部验证，例如，在某些机场，您可以通过让系统扫描您的护照来验证您是正确的人来通过海关。使用面部解锁的手机也使用了面部验证。这是1：1匹配问题。另一类是面部识别。例如，视频里显示的百度员工进入办公室的人脸识别系统。这是1：K匹配问题。
+人脸识别问题一般分为两类：一类是人脸验证，例如，在某些机场，您可以通过让系统扫描您的护照来验证您是正确的人来通过海关。使用人脸解锁的手机也使用了人脸验证。这是1：1匹配问题。另一类是人脸识别。例如，视频里显示的百度员工进入办公室的人脸识别系统。这是1：K匹配问题。
 
 # Face Recognition for the Happy House
 
@@ -147,7 +147,8 @@ Most implementations also normalize the encoding vectors  to have norm equal one
 注意：
 
 - 第(1)项是给定三元组的A和P的距离平方，你希望这个值尽可能小
-- 第(2)项是给定三元组的A和N的距离平方，你希望这个值尽可能大，因此前面加一个减号是有意义的
+- 第(2)项是给定三元组的A和N的距离平方，你希望这个值尽可能大，因此前
+- 面加一个减号是有意义的
 - &alpha;是一个超参数，需要你手动选择。这里&alpha; = 0.2
 
 
@@ -323,7 +324,7 @@ As presented above, you should use the L2 distance (np.linalg.norm). (Note: In t
 	    ### START CODE HERE ###
 	    
 	    # Step 1: Compute the encoding for the image. Use img_to_encoding() see example above. (≈ 1 line)
-	    encoding = img_to_encoding(image_path, FRmodel)
+	    encoding = img_to_encoding(image_path, model)
 	    
 	    # Step 2: Compute distance with identity's image (≈ 1 line)
 	    dist =  np.linalg.norm(encoding-database[identity])
@@ -413,7 +414,7 @@ You'll implement a face recognition system that takes as input an image, and fig
 	    ### START CODE HERE ### 
 	    
 	    ## Step 1: Compute the target "encoding" for the image. Use img_to_encoding() see example above. ## (≈ 1 line)
-	    encoding = img_to_encoding(image_path, FRmodel)
+	    encoding = img_to_encoding(image_path, model)
 	    
 	    ## Step 2: Find the closest encoding ##
 	    
