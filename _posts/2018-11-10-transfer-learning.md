@@ -24,7 +24,7 @@ NIPS 2016 讲座上，吴恩达表示：“在监督学习之后，迁移学习�
 
 迁移学习中一种常用且非常高效的方法是使用预训练网络。预训练网络(pretrained network)是一个保存好的网络，之前已经在大型数据集上训练好。如果原始数据集足够大且足够通用，那么预训练网络学到的特征可用于各种不同的计算机视觉问题，即使新问题涉及的类别和原始任务完全不同。这里将使用VGG16架构来实现迁移学习。VGG16是2014年提出来的一种卷积神经网络，由于它的简洁性和实用性，很快成为了当时最流行的卷积神经网络模型，后面出现了许多更为复杂和先进的新模型，比如inception,resnet,inception-resnet,xception等。
 
-### 预训练模型下载
+### 预训练模型和训练数据下载
 
 Keras提供了包括VGG16在内的多种架构的预训练模型，下载地址如下：   
 https://github.com/fchollet/deep-learning-models/releases/  
@@ -203,14 +203,23 @@ https://github.com/fchollet/deep-learning-models/releases/
     plt.legend()
     plt.show()
 
+## 总结 
 
+进行迁移学习的步骤如下：  
+
+- 在已经训练好的基网络上添加自定义网络
+- 冻结基网络
+- 训练所添加的部分
+- 解冻基网络的一些层
+- 联合训练解冻的这些层和添加的部分
 
 
 
 参考资料：  
 1、NIPS，全称神经信息处理系统大会(Conference and Workshop on Neural Information Processing Systems)，是一个关于机器学习和计算神经科学的国际会议。该会议固定在每年的12月举行,由NIPS基金会主办。NIPS是机器学习领域的顶级会议。在中国计算机学会的国际学术会议排名中，NIPS为人工智能领域的A类会议。   
 2、https://www.sohu.com/a/134792245_717210    
-3、http://vc.cs.nthu.edu.tw/home/paper/codfiles/melu/201604250548/VGG.pdf
+3、http://vc.cs.nthu.edu.tw/home/paper/codfiles/melu/201604250548/VGG.pdf  
+4、Python深度学习
  
    
 
