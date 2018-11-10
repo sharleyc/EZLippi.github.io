@@ -31,7 +31,9 @@ https://github.com/fchollet/deep-learning-models/releases/
 
    ![](/images/images_2018/11-10_04.png)   
 
-下载vgg16_weights_tf_dim_ordering_tf_kernels.h5和vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5两个文件，并把它们拷贝放在C:\Users\<username>\.keras\models目录下。   
+下载vgg16_weights_tf_dim_ordering_tf_kernels.h5和vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5两个文件，并把它们拷贝放在C:\Users\<username>\.keras\models目录下。    
+
+本文用到的猫狗分类的原始数据，可以从https://www.kaggle.com/c/dogs-vs-cats/data 下载，如果没有Kaggle帐号的话，需要注册一个，过程很简单。这个数据集包含25000张猫狗图像，每个类别各12500张。为了训练，需要创建一个新数据集，其中包含三个子集：每个类别各1000个样本的训练集，每个类别各500个样本的开发集，和每个类别各500个样本的测试集，可以写一个脚本自动完成这件事。由于每个类别的样本数相同，这是一个平衡的二分类问题，精度可作为衡量成功的指标。
 
 ### 特征提取
 
