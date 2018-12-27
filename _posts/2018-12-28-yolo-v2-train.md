@@ -24,7 +24,7 @@ YOLO是目前比较流行的目标检测(Object detection)算法，用它处理�
 
   ![](/images/images_2018/12-28_02.png)
 
-3、样本统一采用jpg格式的图像，标注文件的名字和样本的名字保持一致
+样本统一采用jpg格式的图像，标注文件的名字和样本的名字保持一致
 
   ![](/images/images_2018/12-28_03.png)
 
@@ -32,7 +32,7 @@ YOLO是目前比较流行的目标检测(Object detection)算法，用它处理�
 
   ![](/images/images_2018/12-28_04.png)
 
-将样本分为两部分，一部分作为训练集(train.txt)，一部分作为测试集(test.txt)，内容格式如下：
+3、在目录build\darknet\x64\data下，创建两个文件：train.txt和test.txt，内容格式如下：
 
   ![](/images/images_2018/12-28_05.png)
 
