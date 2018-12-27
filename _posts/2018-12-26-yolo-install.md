@@ -6,7 +6,7 @@ categories: [机器学习]
 tags:	    [深度学习，物体检测，YOLO]
 ---
 
-这是yolo算法系列的第一篇文章。本文主要记录在windows10(64bit)中搭建环境的过程，并基于自定义的数据进行训练的过程。
+这是yolo算法系列的第一篇文章。本文主要记录在windows10中搭建环境的过程，和中间遇到的问题。
 
 ## 环境搭建
 
@@ -18,7 +18,7 @@ OS： Windows, 64bit
 Python：3.6.6
 CUDA：9.0
 cuDNN：7.0.5
-MS Visual Studio 2017
+Visual Studio Community 2017
 
 ### 下载darknet
 
