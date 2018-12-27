@@ -10,11 +10,15 @@ tags:	    [深度学习，物体检测，YOLO]
 
 ## 环境搭建
 
-我主要参考以下两处：
+系统配置
+OS： Windows, 64bit
+显卡：NVIDIA GeForce GTX 1060
 
- - https://github.com/AlexeyAB/darknet#how-to-compile-on-windows
-
- - https://blog.csdn.net/u011635764/article/details/50564259
+已安装软件（环境变量均已配置好）：
+Python：3.6.6
+CUDA：9.0
+cuDNN：7.0.5
+MS Visual Studio 2017
 
 ### 下载darknet
 
@@ -38,7 +42,7 @@ D:\programs\opencv3.4\build\x64\vc14\bin
 
 需要注意的是CUDA必须在MSVS安装之后安装。
 
-### VS2015 & VS2017
+### MS Visual Studio安装
 
 如果你没有安装VS，那么就安装VS2015吧，因为yolo项目是用VS2015写的。如果你和我一样已经安装了VS2017，那么就需要安装扩展。
 
@@ -50,7 +54,7 @@ https://visualstudio.microsoft.com/zh-hans/thank-you-downloading-visual-studio/?
 
 ## 环境配置
 
-1、用VS打开\build\darknet\darknet.sln，打开工程属性。
+1、用VS打开\build\darknet\darknet.sln，打开darknet属性页。
 
  - C/C++ -->常规--> 附加包含目录，添加以下路径：
  D:\programs\opencv3.4\build\include  
@@ -90,7 +94,10 @@ https://visualstudio.microsoft.com/zh-hans/thank-you-downloading-visual-studio/?
   ![](/images/images_2018/12-26_13.png)
 
 
+参考文章：
 
+https://github.com/AlexeyAB/darknet#how-to-compile-on-windows  
+https://blog.csdn.net/u011635764/article/details/50564259
 
 
 
